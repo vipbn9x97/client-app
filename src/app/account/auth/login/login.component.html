@@ -1,0 +1,69 @@
+<!-- this component can be placed anywhere -->
+<Particles id="tsparticles" [options]="options"></Particles>
+<div class="account-pages p-6">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6 col-xl-5">
+        <div class="card overflow-hidden">
+          <div class="bg-soft bg-primary">
+            <div class="row">
+              <div class="col-7">
+                <div class="text-primary p-4">
+                  <h5 class="text-primary">Welcome Back !</h5>
+                  <p>Sign in to Manpower System.</p>
+                </div>
+              </div>
+              <div class="col-5 align-self-end">
+                <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          <div class="card-body pt-0">
+
+            <div class="p-2">
+              <form class="form-horizontal" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+
+                <div class="mb-3">
+                  <label for="code">Code</label>
+                  <input type="text" formControlName="code" class="form-control" placeholder="Code"
+                    [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+                  <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                    <div *ngIf="f.code.errors.required">Vui lòng nhập code</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="password">Password</label>
+                  <div class="input-group auth-pass-inputgroup">
+                    <input type="password" class="form-control" formControlName="password" placeholder="Enter password"
+                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }" aria-label="Password"
+                      aria-describedby="password-addon">
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <span *ngIf="f.password.errors.required">Vui lòng nhập mật khẩu</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-3 d-grid">
+                  <button class="btn btn-primary" type="submit">Log In</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+        <div class="mt-5 text-center">
+
+          <p>© {{year}} Crafted with <i class="mdi mdi-heart text-danger"></i> by Hach dep trai</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- or -->
+
+<!-- <ng-particles [id]="id" [url]="particlesUrl" (particlesLoaded)="particlesLoaded($event)" (particlesInit)="particlesInit($event)"></ng-particles> -->

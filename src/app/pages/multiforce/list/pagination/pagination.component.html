@@ -1,0 +1,56 @@
+<div>
+  <div class="table-responsive">
+    <table id="basic-datatable" class="
+        table table-bordered
+        dt-responsive
+        nowrap
+        datatables
+        no-footer
+        dtr-inline
+      ">
+      <thead>
+        <tr>
+          <th>Hành động</th>
+          <th>Tên lớp học</th>
+          <th>Chi tiết</th>
+          <th>Mục đích của lớp học</th>
+          <th>Ngày đào tạo</th>
+          <th>Nơi đào tạo</th>
+          <th>Trạng thái lớp học</th>
+          <th>Học viên</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let table of docs; let i = index">
+        <tr>
+          <td>
+            <div ngbDropdown placement="bottom-left">
+              <i class="mdi mdi-dots-vertical dropdown-toggle" ngbDropdownToggle data-toggle="dropdown"
+                aria-expanded="true" style="cursor: pointer"></i>
+              <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript: void(0);"><i class="mdi mdi-account-edit"></i>Sửa</a>
+              </div>
+            </div>
+          </td>
+          <td>
+            {{ table.code }}
+          </td>
+          <td>{{ table.first_name }} {{ table.last_name }}</td>
+          <td>{{ table.hire_date | date: "dd MMM, YYYY" }}</td>
+          <td>
+            {{ table.ngay_nhan | date: "dd MMM, YYYY" }}
+          </td>
+          <td>
+            <span *ngIf="table.mobile">{{ table.mobile }}</span>
+          </td>
+          <td>
+            <span *ngIf="table.familiar_phone">{{ table.familiar_phone }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ngb-pagination [collectionSize]="50" [(page)]="currentpage"
+    class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
+  </ngb-pagination>
+</div>
+<!-- <app-no-data *ngIf="canShowNoData()"></app-no-data> -->

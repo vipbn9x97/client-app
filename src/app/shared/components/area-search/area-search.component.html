@@ -1,0 +1,9 @@
+<div class="input-group mb-3 ">
+  <div class="input-group-prepend">
+    <label class="input-group-text">Khu vực</label>
+  </div>
+  <select class="form-select" (change)="searchByArea($event.target.value)">
+    <option selected>Select</option>
+    <option *ngFor="let item of ['Training Basic', 'Training Cell']" value="{{item}}">{{item}}</option>
+  </select>
+</div>

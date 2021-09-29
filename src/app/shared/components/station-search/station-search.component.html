@@ -1,0 +1,4 @@
+<select class="form-select" (change)="searchByModel($event.target.value)">
+  <option selected>Select</option>
+  <option *ngFor="let item of ['ASSY 1', 'ASSY 2', 'ASSY 3', 'ASSY 4']" [value]="item">{{item}}</option>
+</select>

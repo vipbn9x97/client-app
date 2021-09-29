@@ -1,0 +1,9 @@
+<div class="input-group mb-3" >
+  <div class="input-group-prepend">
+    <label class="input-group-text">{{label}}</label>
+  </div>
+  <input [value]="formatDate" ngbDatepicker class="form-control" (dateSelect)="onDateSelect($event)" (click)="d.toggle()" placeholder="yyyy-mm-dd" #d="ngbDatepicker">
+  <div class="input-group-append" (click)="d.toggle()" >
+    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+  </div>
+</div>
