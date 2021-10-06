@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-station-search',
   templateUrl: './station-search.component.html',
-  styleUrls: ['./station-search.component.css']
+  styleUrls: ['./station-search.component.scss']
 })
 export class StationSearchComponent implements OnInit {
   @Input() label: string;

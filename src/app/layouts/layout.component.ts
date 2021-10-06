@@ -45,23 +45,24 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   LayoutWidth(width: string) {
     switch (width) {
-      case "fluid":
-        document.body.setAttribute("data-layout-size", "fluid");
-        document.body.classList.remove("vertical-collpsed");
-        document.body.removeAttribute("data-layout-scrollable");
+      case 'fluid':
+        document.body.setAttribute('data-layout-size', 'fluid');
+        document.body.classList.remove('vertical-collpsed');
+        document.body.removeAttribute('data-layout-scrollable');
         break;
-      case "boxed":
-        document.body.setAttribute("data-layout-size", "boxed");
-        document.body.classList.add("vertical-collpsed");
-        document.body.removeAttribute("data-layout-scrollable");
+      case 'boxed':
+        document.body.setAttribute('data-layout-size', 'boxed');
+        document.body.classList.add('vertical-collpsed');
+        document.body.removeAttribute('data-layout-scrollable');
         break;
-      case "scrollable":
-        document.body.removeAttribute("data-layout-size");
-        document.body.setAttribute("data-layout-scrollable", "true");
-        document.body.setAttribute("data-layout-size", "fluid");
-        document.body.classList.remove("right-bar-enabled", "vertical-collpsed");
+      case 'scrollable':
+        document.body.removeAttribute('data-layout-size');
+        document.body.setAttribute('data-layout-scrollable', 'true');
+        document.body.setAttribute('data-layout-size', 'fluid');
+        document.body.classList.remove('right-bar-enabled', 'vertical-collpsed');
+        break;
       default:
-        document.body.setAttribute("data-layout-size", "fluid");
+        document.body.setAttribute('data-layout-size', 'fluid');
         break;
     }
   }
@@ -72,5 +73,5 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   isHorizontalLayoutRequested() {
     return this.layoutType === LAYOUT_HORIZONTAL;
   }
-  
+
 }

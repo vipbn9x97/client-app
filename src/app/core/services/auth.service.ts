@@ -29,7 +29,6 @@ export class AuthenticationService {
    * @param password password of user
    */
   login(body: { username: string; password: string }) {
-    console.log(body);
     return this.httpClient.post(`${environment.apiURL}/token`, body);
   }
 

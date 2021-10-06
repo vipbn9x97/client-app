@@ -8,14 +8,14 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 2,
-                label: 'MENUITEMS.DASHBOARDS.LIST.DEFAULT',
+                label: 'Dashboard',
                 link: '/dashboard',
                 parentId: 1
             },
             {
                 id: 3,
-                label: 'MENUITEMS.DASHBOARDS.LIST.SAAS',
-                link: '/dashboards/saas',
+                label: 'Attendance Board',
+                link: '/dashboards/attendance',
                 parentId: 1
             },
             {
@@ -437,62 +437,62 @@ export const MENU: MenuItem[] = [
     {
         id: 69,
         icon: 'bx-collection',
-        label: 'MENUITEMS.COMPONENTS.TEXT',
+        label: 'PA',
         subItems: [
-            {
-                id: 70,
-                label: 'MENUITEMS.FORMS.TEXT',
-                subItems: [
-                    {
-                        id: 71,
-                        label: 'MENUITEMS.FORMS.LIST.ELEMENTS',
-                        link: '/form/elements',
-                        parentId: 70
-                    },
-                    {
-                        id: 72,
-                        label: 'MENUITEMS.FORMS.LIST.VALIDATION',
-                        link: '/form/validation',
-                        parentId: 70
-                    },
-                    {
-                        id: 73,
-                        label: 'MENUITEMS.FORMS.LIST.ADVANCED',
-                        link: '/form/advanced',
-                        parentId: 70
-                    },
-                    {
-                        id: 74,
-                        label: 'MENUITEMS.FORMS.LIST.EDITOR',
-                        link: '/form/editor',
-                        parentId: 70
-                    },
-                    {
-                        id: 75,
-                        label: 'MENUITEMS.FORMS.LIST.FILEUPLOAD',
-                        link: '/form/uploads',
-                        parentId: 70
-                    },
-                    {
-                        id: 76,
-                        label: 'MENUITEMS.FORMS.LIST.REPEATER',
-                        link: '/form/repeater',
-                        parentId: 70
-                    },
-                    {
-                        id: 77,
-                        label: 'MENUITEMS.FORMS.LIST.WIZARD',
-                        link: '/form/wizard',
-                        parentId: 70
-                    },
-                    {
-                        id: 78,
-                        label: 'MENUITEMS.FORMS.LIST.MASK',
-                        link: '/form/mask',
-                        parentId: 70
-                    }
-                ]
-            },
+            // {
+            //     id: 70,
+            //     label: 'MENUITEMS.FORMS.TEXT',
+            //     subItems: [
+            //         {
+            //             id: 71,
+            //             label: 'MENUITEMS.FORMS.LIST.ELEMENTS',
+            //             link: '/form/elements',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 72,
+            //             label: 'MENUITEMS.FORMS.LIST.VALIDATION',
+            //             link: '/form/validation',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 73,
+            //             label: 'MENUITEMS.FORMS.LIST.ADVANCED',
+            //             link: '/form/advanced',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 74,
+            //             label: 'MENUITEMS.FORMS.LIST.EDITOR',
+            //             link: '/form/editor',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 75,
+            //             label: 'MENUITEMS.FORMS.LIST.FILEUPLOAD',
+            //             link: '/form/uploads',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 76,
+            //             label: 'MENUITEMS.FORMS.LIST.REPEATER',
+            //             link: '/form/repeater',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 77,
+            //             label: 'MENUITEMS.FORMS.LIST.WIZARD',
+            //             link: '/form/wizard',
+            //             parentId: 70
+            //         },
+            //         {
+            //             id: 78,
+            //             label: 'MENUITEMS.FORMS.LIST.MASK',
+            //             link: '/form/mask',
+            //             parentId: 70
+            //         }
+            //     ]
+            // },
             {
                 id: 79,
                 label: 'MENUITEMS.TABLES.TEXT',
@@ -573,12 +573,12 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 92,
-                label: 'MENUITEMS.MAPS.TEXT',
+                label: 'Upload file',
                 subItems: [
                     {
                         id: 93,
-                        label: 'MENUITEMS.MAPS.LIST.GOOGLEMAP',
-                        link: '/maps/google',
+                        label: 'Upload ảnh thẻ',
+                        link: '/pa/file/images',
                         parentId: 92
                     }
                 ]

@@ -4,8 +4,6 @@ import { ChartType } from './dashboard.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../../core/services/event.service';
 
-import { ConfigService } from '../../../core/services/config.service';
-
 @Component({
   selector: 'app-default',
   templateUrl: './default.component.html',
@@ -22,7 +20,7 @@ export class DefaultComponent implements OnInit {
 
   isActive: string;
 
-  constructor(private modalService: NgbModal, private configService: ConfigService, private eventService: EventService) {
+  constructor(private modalService: NgbModal, private eventService: EventService) {
   }
 
   ngOnInit() {
@@ -30,20 +28,20 @@ export class DefaultComponent implements OnInit {
     /**
      * horizontal-vertical layput set
      */
-     const attribute = document.body.getAttribute('data-layout');
+    const attribute = document.body.getAttribute('data-layout');
 
-     this.isVisible = attribute;
-     const vertical = document.getElementById('layout-vertical');
-     if (vertical != null) {
-       vertical.setAttribute('checked', 'true');
-     }
-     if (attribute == 'horizontal') {
-       const horizontal = document.getElementById('layout-horizontal');
-       if (horizontal != null) {
-         horizontal.setAttribute('checked', 'true');
-         console.log(horizontal);
-       }
-     }
+    this.isVisible = attribute;
+    const vertical = document.getElementById('layout-vertical');
+    if (vertical != null) {
+      vertical.setAttribute('checked', 'true');
+    }
+    if (attribute === 'horizontal') {
+      const horizontal = document.getElementById('layout-horizontal');
+      if (horizontal != null) {
+        horizontal.setAttribute('checked', 'true');
+        console.log(horizontal);
+      }
+    }
 
     /**
      * Fetches the data
@@ -51,8 +49,6 @@ export class DefaultComponent implements OnInit {
     this.fetchData();
   }
 
-  ngAfterViewInit() {
-  }
 
   /**
    * Fetches the data
@@ -62,10 +58,6 @@ export class DefaultComponent implements OnInit {
     this.monthlyEarningChart = monthlyEarningChart;
 
     this.isActive = 'year';
-    this.configService.getConfig().subscribe(data => {
-      this.transactions = data.transactions;
-      this.statData = data.statData;
-    });
   }
 
   weeklyreport() {
@@ -73,7 +65,7 @@ export class DefaultComponent implements OnInit {
     this.emailSentBarChart.series =
       [{
         name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
+        data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
       }, {
         name: 'Series B',
         data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
@@ -88,7 +80,7 @@ export class DefaultComponent implements OnInit {
     this.emailSentBarChart.series =
       [{
         name: 'Series A',
-         data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
+        data: [44, 55, 41, 67, 22, 43, 36, 52, 24, 18, 36, 48]
       }, {
         name: 'Series B',
         data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
@@ -103,7 +95,7 @@ export class DefaultComponent implements OnInit {
     this.emailSentBarChart.series =
       [{
         name: 'Series A',
-         data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
+        data: [13, 23, 20, 8, 13, 27, 18, 22, 10, 16, 24, 22]
       }, {
         name: 'Series B',
         data: [11, 17, 15, 15, 21, 14, 11, 18, 17, 12, 20, 18]
@@ -118,7 +110,7 @@ export class DefaultComponent implements OnInit {
    * Change the layout onclick
    * @param layout Change the layout
    */
-   changeLayout(layout: string) {
+  changeLayout(layout: string) {
     this.eventService.broadcast('changeLayout', layout);
   }
 }

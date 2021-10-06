@@ -143,26 +143,25 @@ export class LoginComponent implements OnInit {
         username: this.f.code.value,
         password: this.f.password.value,
       };
-      if (this.f.code.value === 'admin' && this.f.password.value === 'admin') {
-        this.router.navigate(['/']);
-      }
-      // this.errorResponse = "";
-      // this.authenticationService.login(userInfo).subscribe(
-      //   (user: IDataResponse) => {
-      //     this.errorResponse = "";
-      //     this.storeService.setUserData(user.data);
-      //     if (this.authenticationService.returnUrl) {
-      //       this.router.navigate([this.authenticationService.returnUrl.url], {
-      //         queryParams: this.authenticationService.returnUrl.queryParams,
-      //       });
-      //     } else {
-      //       this.router.navigate(["/"]);
-      //     }
-      //   },
-      //   () => {
-      //     this.onUserSigninError();
-      //   }
-      // );
+      // if (this.f.code.value === 'admin' && this.f.password.value === 'admin') {
+      //   this.router.navigate(['/']);
+      // }
+      this.authenticationService.login(userInfo).subscribe(
+        (user: IDataResponse) => {
+          this.errorResponse = '';
+          this.storeService.setUserData(user.data);
+          if (this.authenticationService.returnUrl) {
+            this.router.navigate([this.authenticationService.returnUrl.url], {
+              queryParams: this.authenticationService.returnUrl.queryParams,
+            });
+          } else {
+            this.router.navigate(['/']);
+          }
+        },
+        () => {
+          this.onUserSigninError();
+        }
+      );
     }
   }
 

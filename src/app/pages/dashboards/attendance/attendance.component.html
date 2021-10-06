@@ -1,0 +1,32 @@
+<div class="page-title">
+  <ol class="breadcrumb m-0">
+    <li class="breadcrumb-item">Dashboard
+    </li>
+    <li class="breadcrumb-item active" style="cursor: pointer;">View other cell
+    </li>
+  </ol>
+</div>
+<div style="border: 2px solid black">
+  <h3 style="text-align:center;margin:0;padding:0;line-height:30px;height:38px;color:#000">Attendance Board</h3>
+  <div class="w-100">
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <div class="row">
+            <span *ngFor="let item of employeeList"
+              style="width: 55px; padding: 0px!important; margin-right: 10px; text-align: center;">
+              <span style="cursor: pointer;"><img
+                  [src]="item.code != null ? createImgPath(item.code)  : 'assets/images/users/face_absent.png'"
+                  alt="employee" style="width: 55px; height: 55px;" /></span>
+              <p>{{item.last_name}}</p>
+              <p>{{item.code}}</p>
+              <p>{{item.station}}</p>
+            </span>
+          </div>
+          <!-- end row -->
+        </div>
+      </div>
+    </div>
+    <!-- end card -->
+  </div>
+</div>

@@ -8,7 +8,6 @@ import { Component , isDevMode, OnInit} from '@angular/core';
 export class AppComponent implements OnInit  {
 
   ngOnInit() {
-    console.log(isDevMode());
     // document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
   }
 }

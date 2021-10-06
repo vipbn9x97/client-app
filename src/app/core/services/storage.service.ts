@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import jwt_decode from "jwt-decode";
-import { CookieService } from "ngx-cookie-service";
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import jwt_decode from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface ILocalStorageData {
   authorization: string;
@@ -17,30 +17,29 @@ export class StoreService {
   ) {}
 
   get getToken() {
-    return this.cookie.get("token");
+    return this.cookie.get('token');
   }
 
   /**
    * Returns the current user
    */
   public currentUser() {
-    return sessionStorage.getItem("token");
+    return this.cookie.get('token');
   }
 
   setUserData(data: string) {
-    this.cookie.set("token", data);
-    sessionStorage.setItem("token", data);
+    this.cookie.set('token', data);
     const decoded = jwt_decode(data);
-    sessionStorage.setItem("user", JSON.stringify(decoded));
+    this.cookie.set('user', JSON.stringify(decoded));
     this.userSubject.next(decoded);
   }
 
   remove(key: string) {
-    sessionStorage.removeItem(key);
+    this.cookie.delete(key);
   }
 
   clear() {
-    sessionStorage.clear();
+    this.cookie.deleteAll('/');
     this.userSubject.next();
   }
 
@@ -49,7 +48,7 @@ export class StoreService {
   }
 
   get(key: string) {
-    const value = sessionStorage.getItem(key);
+    const value = this.cookie.get(key);
     try {
       return JSON.parse(value);
     } catch (error) {
@@ -58,6 +57,6 @@ export class StoreService {
   }
 
   set(key: string, value: any) {
-    return sessionStorage.setItem(key, JSON.stringify(value));
+    return this.cookie.set(key, JSON.stringify(value));
   }
 }

@@ -28,12 +28,12 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
 
   menuItems = [];
 
- 
+
 
   // tslint:disable-next-line: max-line-length
   constructor(@Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
     // tslint:disable-next-line: variable-name
-    public _cookiesService: CookieService) {
+              public _cookiesService: CookieService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -59,7 +59,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
    * Logout the user
    */
   logout() {
-    this.router.navigate(['/account/login']);
+    this.authService.logout();
   }
 
   /**
@@ -70,9 +70,9 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
     if (nextEl) {
       const parentEl = event.target.parentNode;
       if (parentEl) {
-        parentEl.classList.remove("show");
+        parentEl.classList.remove('show');
       }
-      nextEl.classList.toggle("show");
+      nextEl.classList.toggle('show');
     }
     return false;
   }
@@ -122,12 +122,13 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
               const parent5 = parent4.parentElement;
               if (parent5) {
                 parent5.classList.remove('active');
-                const menuelement = document.getElementById("topnav-menu-content")
+                const menuelement = document.getElementById('topnav-menu-content');
                 if (menuelement !== null) {
-                  if (menuelement.classList.contains('show'))
+                  if (menuelement.classList.contains('show')) {
                     document
-                      .getElementById("topnav-menu-content")
-                      .classList.remove("show");
+                      .getElementById('topnav-menu-content')
+                      .classList.remove('show');
+                  }
                 }
               }
             }
