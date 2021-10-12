@@ -12,4 +12,5 @@ export interface IEmployee {
     session: number;
     st_id: number;
     station: string;
+    imagepath?: number;
 }

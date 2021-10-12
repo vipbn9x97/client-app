@@ -13,9 +13,11 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { DefaultComponent } from './default/default.component';
 import { AttendanceComponent } from './attendance/attendance.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AbsentRegisterComponent } from './absent-register/absent-register.component';
+import { FilesModule } from '../pa/files/files.module';
 
 @NgModule({
-  declarations: [DefaultComponent, AttendanceComponent],
+  declarations: [DefaultComponent, AttendanceComponent, AbsentRegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,7 +30,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     WidgetModule,
     NgApexchartsModule,
     SimplebarAngularModule,
-    SharedModule
+    SharedModule,
+    FilesModule
   ]
 })
 export class DashboardsModule { }

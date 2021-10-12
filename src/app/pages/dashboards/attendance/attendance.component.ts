@@ -1,7 +1,12 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
+import { forkJoin, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FilesService } from 'src/app/pages/pa/files/files.service';
+import { AbsentRegisterComponent } from '../absent-register/absent-register.component';
 import { IEmployee } from '../dashboard';
 import { DashboardService } from '../dashboard.service';
 
@@ -15,56 +20,68 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   employeeList: IEmployee[];
   message: string;
   progress: number;
-  imgtest;
-  constructor(private dashboardService: DashboardService, private datepipe: DatePipe) { }
+  listImageAvailable = [];
+  isProduct: boolean;
+  constructor(
+    private dashboardService: DashboardService,
+    private datepipe: DatePipe,
+    private modalService: NgbModal,
+    private cookieService: CookieService,
+    private fileService: FilesService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit() {
-    this.employeeList = [{
-      absent: null,
-      birth_day: '1983-09-18T00:00:00',
-      code: null,
-      cost: null,
-      first_name: 'Nguyễn Hồng',
-      grade: 'G2',
-      group_id: 1080,
-      last_name: 'Vân',
-      newNV: null,
-      position: 'G2',
-      session: 6495375,
-      st_id: 96993,
-      station: 'LD'
-    }];
-    // this.getEmployeeList();
-    // this.download();
+    this.getEmployeeList();
   }
 
   getEmployeeList() {
     const DateNow = this.datepipe.transform(
-      new Date(new Date().getFullYear(), new Date().getMonth(), 1).toString(),
+      new Date().toString(),
       'MM-dd-yyyy'
     );
-    console.log(DateNow);
-    // tslint:disable-next-line:max-line-length
-    this.dashboardService.getEmployeeList({ Date: DateNow, CellId: 1080, isProduct: true })
+    this.dashboardService.getEmployeeList({ Date: DateNow, CellId: JSON.parse(this.cookieService.get('user')).GroupId, isProduct: false })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
-        res => this.employeeList = res.data,
-        err => console.log(err)
+        res => { this.employeeList = res.data; this.isProduct = res.isProduct; this.getImages(); }
       );
   }
 
-  // download() {
-  //   this.dashboardService.downloadImages().subscribe((response) => {
-  //   });
-  // }
+  getImages() {
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.employeeList.length; i++) {
+      this.fileService.getImages(this.employeeList[i].code)
+        .subscribe(res => this.employeeList[i].imagepath = 1, err => this.employeeList[i].imagepath = 0);
+    }
+  }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
 
-  public createImgPath = (serverPath: string) => {
-    return `http://localhost:5000/resources/images/${serverPath}.PNG`;
+
+  public createImgPath = (employee: IEmployee) => {
+    if (employee.imagepath === 0) {
+      return 'assets/images/users/no_image.png';
+    } else {
+      return `http://localhost:5000/resources/images/${employee.code}.PNG`;
+    }
+
   }
+
+  update() {
+    console.log('ok');
+  }
+
+  openRegisterMultiModal(employee: IEmployee) {
+    const modalRef = this.modalService.open(AbsentRegisterComponent, { size: 'lg', centered: true });
+    modalRef.componentInstance.employee = employee;
+    modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
+      modalRef.close();
+      console.log(receivedEntry);
+    });
+  }
+  openEmployeeInfoModal(employee: IEmployee) {}
 
 }

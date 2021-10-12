@@ -14,13 +14,20 @@
         <div>
           <div class="row">
             <span *ngFor="let item of employeeList"
-              style="width: 55px; padding: 0px!important; margin-right: 10px; text-align: center;">
-              <span style="cursor: pointer;"><img
-                  [src]="item.code != null ? createImgPath(item.code)  : 'assets/images/users/face_absent.png'"
-                  alt="employee" style="width: 55px; height: 55px;" /></span>
-              <p>{{item.last_name}}</p>
-              <p>{{item.code}}</p>
-              <p>{{item.station}}</p>
+              style="width: 80px; padding: 0px!important; margin-right: 10px; text-align: center;">
+              <span class="dropdown" style="cursor: pointer;">
+                <img [src]="item.code != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
+                  alt="employee" style="width: 55px; height: 55px;" />
+                  <!-- <img [src]="'assets/images/users/face_absent.png'"
+                  alt="employee" style="width: 55px; height: 55px;" /> -->
+                <div class="dropdown-menu">
+                  <div class="dropdown-item" *ngIf="isProduct" (click)="openRegisterMultiModal(item)">Đăng ký nghỉ</div>
+                  <div class="dropdown-item" (click)="openEmployeeInfoModal(item)">Thông tin bản thân</div>
+                </div>
+              </span>
+              <p class="m-b-0">{{item.last_name}}</p>
+              <p class="m-b-0">{{item.code}}</p>
+              <p class="m-b-0">{{item.station}}</p>
             </span>
           </div>
           <!-- end row -->

@@ -11,10 +11,9 @@ export interface ILocalStorageData {
 
 @Injectable()
 export class StoreService {
-  private userSubject = new Subject<any>();
   constructor(
     private cookie: CookieService
-  ) {}
+  ) { }
 
   get getToken() {
     return this.cookie.get('token');
@@ -31,7 +30,6 @@ export class StoreService {
     this.cookie.set('token', data);
     const decoded = jwt_decode(data);
     this.cookie.set('user', JSON.stringify(decoded));
-    this.userSubject.next(decoded);
   }
 
   remove(key: string) {
@@ -40,11 +38,6 @@ export class StoreService {
 
   clear() {
     this.cookie.deleteAll('/');
-    this.userSubject.next();
-  }
-
-  getUserSubject(): Observable<any> {
-    return this.userSubject.asObservable();
   }
 
   get(key: string) {

@@ -2,9 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
-
-import { User } from '../models/auth.models';
 import { StoreService } from './storage.service';
 
 @Injectable({ providedIn: 'root' })
@@ -20,8 +17,6 @@ export class AuthenticationService {
     private storeService: StoreService,
     private router: Router
   ) { }
-
-
 
   /**
    * Performs the auth

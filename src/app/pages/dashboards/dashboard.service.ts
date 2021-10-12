@@ -10,9 +10,6 @@ export class DashboardService extends AbstractService {
   private dashboard = {
     employeeList: `${environment.apiURL}/dashboard/attendanceboard`,
   };
-  private file = {
-    images: `${environment.apiURL}/upload/images`,
-  };
 
   constructor(private http: HttpClient) {
     super();
@@ -22,9 +19,6 @@ export class DashboardService extends AbstractService {
     return this.http.get<any>(this.dashboard.employeeList, {
       params: this.toHttpParams(params),
     });
-  }
-  downloadImages() {
-    return this.http.get(this.file.images, {});
   }
 
 }

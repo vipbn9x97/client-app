@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <h3 class="modal-title mt-0" style="font-weight: 700;">Order multi</h3>
+  <button type="button" class="btn-close" aria-hidden="true" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="register()">
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-md-4">
+        <img [src]="employee.code != null ? createImgPath(employee)  : 'assets/images/employees/face_absent.png'"
+          alt="employee" style="width: 150px; height: 150px;" />
+      </div>
+      <div class=" col-md-8">
+        <table class="table table-centered table-nowrap">
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Code</th>
+              <td>
+                <h5 class="text-truncate font-size-14">{{employee.code}}</h5>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Name</th>
+              <td>
+                <h5 class="text-truncate font-size-14">{{employee.first_name}} {{employee.last_name}}</h5>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Station</th>
+              <td>
+                <h5 class="text-truncate font-size-14">{{employee.station}}</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+
+      <div class="mb-3 row">
+        <label for="example-text-input" class="col-md-2 col-form-label">Type</label>
+        <div class="col-md-10">
+          <select class="form-select form-control" formControlName="typeAbsent">
+            <option>Chọn</option>
+            <option>Resignation</option>
+            <option>Long sick</option>
+            <option>New OP</option>
+            <option>Absent OP</option>
+            <option>Need SP</option>
+            <option>Extra work</option>
+          </select>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-md-2 col-form-label">Shift</label>
+        <div class="col-md-10">
+          <select class="form-select form-control" formControlName="shift">
+            <option>Chọn</option>
+            <option>Shift A</option>
+            <option>Shift B</option>
+            <option>Shift Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="example-text-input" class="col-md-2 col-form-label">Full/Half day</label>
+        <div class="col-md-10">
+          <select class="form-select form-control" formControlName="type">
+            <option>Chọn</option>
+            <option>Nghỉ cả ngày</option>
+            <option>Nghỉ buổi sáng</option>
+            <option>Nghỉ buổi chiều</option>
+          </select>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="example-text-input" class="col-md-2 col-form-label">Từ ngày</label>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="fromDate" type="date" value="2019-08-19" id="example-date-input">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="example-text-input" class="col-md-2 col-form-label">Đến ngày</label>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="toDate" type="date" value="2019-08-19" id="example-date-input">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <p style="color: red;">{{errorResponse}}</p>
+    <button class="btn btn-primary" type="submit">Lưu</button>
+    <button class="btn btn-secondary" (click)="activeModal.close('Close click')">Thoát</button>
+  </div>
+</form>

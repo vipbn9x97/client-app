@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class FilesService {
   private file = {
-    images: `${environment.apiURL}/upload/images`,
+    images: `${environment.apiURL}/upload/images`
   };
   constructor(private http: HttpClient) { }
 
@@ -23,6 +23,10 @@ export class FilesService {
     });
 
     return this.http.request(req);
+  }
+
+  getImages(imagepath: string) {
+    return this.http.get(`http://localhost:5000/resources/images/${imagepath}.PNG`);
   }
 
   downloadImages() {
