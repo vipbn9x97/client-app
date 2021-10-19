@@ -15,9 +15,10 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AbsentRegisterComponent } from './absent-register/absent-register.component';
 import { FilesModule } from '../pa/files/files.module';
+import { UploadMasterComponent } from './upload-master/upload-master.component';
 
 @NgModule({
-  declarations: [DefaultComponent, AttendanceComponent, AbsentRegisterComponent],
+  declarations: [DefaultComponent, AttendanceComponent, AbsentRegisterComponent, UploadMasterComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -6,12 +6,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
-} from "@angular/core";
-import { fromEvent, Subject, timer } from "rxjs";
-import { debounce, distinctUntilChanged, takeUntil } from "rxjs/operators";
+} from '@angular/core';
+import { fromEvent, Subject, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Directive({
-  selector: "[appDelayedInput]",
+  selector: '[appDelayedInput]',
 })
 export class DelayedInputDirective implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>(); // 0️⃣
@@ -24,7 +24,7 @@ export class DelayedInputDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    fromEvent(this.elementRef.nativeElement, "input") // 4️⃣
+    fromEvent(this.elementRef.nativeElement, 'input') // 4️⃣
       .pipe(
         debounce(() => timer(this.delayTime)), // 5️⃣
         distinctUntilChanged(

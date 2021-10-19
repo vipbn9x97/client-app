@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CellComponent } from './cell.component';
 import { CellRoutingModule } from './cell-routing.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EmployeeComponent } from './employee/employee.component';
+import { MultiComponent } from './multi/multi.component';
 
 @NgModule({
   imports: [
@@ -13,8 +15,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     CellRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbModalModule
   ],
-  declarations: [CellComponent]
+  declarations: [CellComponent, EmployeeComponent, MultiComponent]
 })
 export class CellModule { }

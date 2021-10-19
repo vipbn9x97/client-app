@@ -1,0 +1,254 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div style="width: 22% !important">
+              <input type="text" class="form-control" placeholder="Code" #code />
+            </div>
+            <div style="width: 120px !important">
+              <button class="btn btn-primary w-md" type="submit" (click)="searchCode(code.value)">Tìm kiếm</button>
+            </div>
+            <div style="width: 220px !important">
+              <button class="btn btn-primary w-md" type="submit" (click)="insertNewTrainee(modal)">Đăng ký Multi học CĐ
+                mới</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs" (navChange)="changeTab($event)">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>
+              <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+              <span class="d-none d-sm-block">Lịch sử học Multi</span>
+            </a>
+            <ng-template ngbNavContent>
+              <ng-template [ngTemplateOutlet]="MultiHistory"></ng-template>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>
+              <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+              <span class="d-none d-sm-block">Danh sách Multi đang ở Training</span>
+            </a>
+            <ng-template ngbNavContent>
+              <ng-template [ngTemplateOutlet]="MultiTraining"></ng-template>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Content -->
+<ng-template #MultiHistory>
+  <div *ngIf="historyLength > 0">
+    <div class="table-responsive">
+      <table id="basic-datatable" class="table table-bordered dt-responsive nowrap datatables no-footer dtr-inline">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Tên</th>
+            <th>Số điện thoại</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Model</th>
+            <th>Cell</th>
+            <th>Station</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let table of historyMulti; let i = index">
+          <tr>
+            <td>
+              {{ table.code }}
+            </td>
+            <td>{{ table.firstName }} {{ table.lastName }}</td>
+            <td><span *ngIf="table.mobile">{{ table.mobile }}</span></td>
+            <td>
+              <span *ngIf="table.fromDate">{{ table.fromDate | date: "dd MMM, YYYY" }}</span>
+            </td>
+            <td>
+              <span *ngIf="table.toDate">{{ table.toDate | date: "dd MMM, YYYY" }}</span>
+            </td>
+            <td>
+              {{ table.model }}
+            </td>
+            <td>
+              {{ table.cell }}
+            </td>
+            <td>
+              {{ table.station }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination [collectionSize]="50" [(page)]="currentpage"
+      class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
+    </ngb-pagination>
+  </div>
+  <app-no-data *ngIf="historyLength === 0"></app-no-data>
+</ng-template>
+
+<!-- Tab Content -->
+<ng-template #MultiTraining>
+  <div *ngIf="dataLength > 0">
+    <div class="table-responsive">
+      <table id="basic-datatable" class="table table-bordered dt-responsive nowrap datatables no-footer dtr-inline">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Tên</th>
+            <th>Số điện thoại</th>
+            <th>Ngày bắt đầu</th>
+            <th>Model</th>
+            <th>Cell</th>
+            <th>Station</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let table of currentMulti; let i = index">
+          <tr>
+            <td>
+              {{ table.code }}
+            </td>
+            <td>{{ table.firstName }} {{ table.lastName }}</td>
+            <td><span *ngIf="table.mobile">{{ table.mobile }}</span></td>
+            <td>
+              <span *ngIf="table.fromDate">{{ table.fromDate | date: "dd MMM, YYYY" }}</span>
+            </td>
+            <td>
+              {{ table.model }}
+            </td>
+            <td>
+              {{ table.cell }}
+            </td>
+            <td>
+              {{ table.station }}
+            </td>
+
+            <td>
+              <div ngbDropdown placement="bottom-left">
+                <i class="mdi mdi-dots-vertical dropdown-toggle" ngbDropdownToggle data-toggle="dropdown"
+                  aria-expanded="true" style="cursor: pointer;"></i>
+                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                  <a class="dropdown-item" href="javascript: void(0);" (click)="updateEndTime(table.id, table.code)"><i
+                      class="mdi mdi-check-bold"></i> Đã học xong</a>
+                  <a class="dropdown-item" href="javascript: void(0);" (click)="editTrainingInfo(table, modal)"><i
+                      class="mdi mdi-account-edit"></i> Sửa</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination [collectionSize]="50" [(page)]="currentpage"
+      class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
+    </ngb-pagination>
+  </div>
+  <app-no-data *ngIf="dataLength === 0"></app-no-data>
+
+</ng-template>
+<!-- Extra Large Modal -->
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">{{title}}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Close click')">
+
+    </button>
+  </div>
+  <form class="form-horizontal" [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="modal-body">
+
+      <div class="row">
+        <div class="col-md-2">
+          <img [src]="createImgPath()" alt="employee" style="width: 100px; height: 100px;" />
+        </div>
+        <div class=" col-md-10">
+          <table class="table table-centered table-nowrap">
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" style="vertical-align: middle;">Code</th>
+                <td>
+                  <input type="number" class="form-control" formControlName="code" appDelayedInput
+                    (delayedInput)="getInfo($event.target.value)" [delayTime]="600" />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>
+                  <h5 class="text-truncate font-size-14">{{userInfo === null ? '' : userInfo.firstName + ' ' +
+                    userInfo.lastName}} {{userInfo === null ? '' : ' - ' + userInfo.groupChild}}</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="mb-3 row">
+          <label for="example-text-input" class="col-md-2 col-form-label">Dept</label>
+          <div class="col-md-10">
+            <select class="form-select" formControlName="dept" (change)="searchByDept($event.target.value)">
+              <option selected>Select</option>
+              <option *ngFor="let item of ['ASSY1', 'ASSY2', 'ASSY3', 'ASSY4']" [value]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="example-text-input" class="col-md-2 col-form-label">Model</label>
+          <div class="col-md-10">
+            <select class="form-select form-control" formControlName="model"
+              (change)="searchByModel($event.target.value)">
+              <option selected>Select</option>
+              <option *ngFor="let item of listModel" [value]="item.modelId">{{item.modelName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label class="col-md-2 col-form-label">Cell</label>
+          <div class="col-md-10">
+            <select class="form-select form-control" formControlName="cell"
+              (change)="searchByCell($event.target.value)">
+              <option>Chọn</option>
+              <option *ngFor="let item of listCell" [value]="item.cellId">{{item.cellName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="example-text-input" class="col-md-2 col-form-label">Station</label>
+          <div class="col-md-10">
+            <select class="form-select form-control" formControlName="station">
+              <option>Chọn</option>
+              <option *ngFor="let item of listStation" [value]="item.stationId">{{item.stationName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="example-text-input" class="col-md-2 col-form-label">Từ ngày</label>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="fromDate" type="date" id="example-date-input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <p style="color: red;">{{errorResponse}}</p>
+      <button class="btn btn-primary" type="submit"
+        [disabled]="errorResponse === 'Code này không phải Multi!' || errorResponse === 'Code này không tồn tại'">Lưu</button>
+      <button class="btn btn-secondary" (click)="modal.close('Close click')">Thoát</button>
+    </div>
+  </form>
+</ng-template>

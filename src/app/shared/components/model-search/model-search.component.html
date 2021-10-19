@@ -1,4 +1,9 @@
-<select class="form-select" (change)="searchByModel($event.target.value)">
-  <option selected>Select</option>
-  <option *ngFor="let item of modelList" [value]="item.modelId">{{item.modelName}}</option>
-</select>
+<div class="input-group mb-3 ">
+  <div class="input-group-prepend">
+    <label class="input-group-text">{{label}}</label>
+  </div>
+  <select class="form-select" (change)="searchByModel($event.target.value)">
+    <option selected>Select</option>
+    <option *ngFor="let item of modelList" [value]="item.modelId">{{item.modelName}}</option>
+  </select>
+</div>

@@ -1,3 +1,35 @@
-<p>
-  ability works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div style="width: 22% !important">
+              <app-code-search (changeCode)="updateCode($event)"></app-code-search>
+            </div>
+            <div style="width: 22% !important">
+              <app-dept-search label='Dept' (changeDept)="updateDept($event)"></app-dept-search>
+            </div>
+            <div style="width: 22% !important">
+              <app-multi-model-search [listModel]="listModel" (changeModel)="updateModel($event)"></app-multi-model-search>
+            </div>
+            <div style="width: 6% !important">
+              <button class="btn btn-primary w-md" type="submit" [disabled] ="isValid" (click)="searchData()">Tìm kiếm</button>
+            </div>
+            <div style="width: 12% !important">
+              <label for="file-upload" class="custom-file-upload">
+                <i class="fas fa-cloud-upload-alt"></i> Custom Upload
+            </label>
+            <input #file id="file-upload" type="file" (change)="uploadFile($event.target.files)"/>
+            </div>
+          </div>
+          <span style="color: red;">Lưu ý:</span> 
+          <span> - Nếu nhập code thì vui lòng không chọn Model! Nếu nhập cùng lúc thì hệ thống sẽ tìm kiếm theo Model</span>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="listMulti.length > 0"></div>
+  <app-no-data *ngIf="listMulti.length === 0"></app-no-data>
+</div>

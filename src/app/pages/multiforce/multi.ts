@@ -7,7 +7,5 @@ export class IAbsent {
     fromDate: string;
     toDate: string;
     shift: string;
-    stationName: string;
-    cellName: string;
-    cell: string;
+    stationId: number;
 }

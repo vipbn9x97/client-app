@@ -16,6 +16,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { DelayedInputDirective } from './util/delayed-input.directive';
 import { AreaSearchComponent } from './components/area-search/area-search.component';
 import { StationSearchComponent } from './components/station-search/station-search.component';
+import { MultiModelSearchComponent } from './components/multi-model-search/multi-model-search.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { StationSearchComponent } from './components/station-search/station-sear
     LoadingComponent,
     AreaSearchComponent,
     StationSearchComponent,
-    DelayedInputDirective
+    DelayedInputDirective,
+    MultiModelSearchComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,8 @@ import { StationSearchComponent } from './components/station-search/station-sear
     WidgetModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [
     CodeSearchComponent,
@@ -49,7 +53,8 @@ import { StationSearchComponent } from './components/station-search/station-sear
     LoadingComponent,
     AreaSearchComponent,
     DelayedInputDirective,
-    StationSearchComponent
+    StationSearchComponent,
+    MultiModelSearchComponent
   ],
 })
 

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: "app-area-search",
-  templateUrl: "./area-search.component.html"
+  selector: 'app-area-search',
+  templateUrl: './area-search.component.html'
 })
 export class AreaSearchComponent implements OnInit {
   @Output() changeArea: EventEmitter<any> = new EventEmitter<any>();

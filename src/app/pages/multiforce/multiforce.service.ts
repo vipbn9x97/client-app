@@ -10,6 +10,8 @@ import { IAbsent } from './multi';
 export class MultiforceService extends AbstractService {
   private multi = {
     registerMulti: `${environment.apiURL}/multi/register`,
+    uploadAbilityFile: `${environment.apiURL}/uploadexcel/read`,
+    getMultiListByModel: `${environment.apiURL}/multi/ability/list`
   };
   constructor(private http: HttpClient) {
     super();
@@ -17,6 +19,14 @@ export class MultiforceService extends AbstractService {
 
   registerMulti(body: IAbsent) {
     return this.http.post<any>(this.multi.registerMulti, body);
+  }
+
+  uploadMultiAbilityExcelFile(formData) {
+    return this.http.request<any>(this.multi.uploadAbilityFile, formData);
+  }
+
+  getMultiListByModel(filter) {
+    return this.http.get<any>(this.multi.getMultiListByModel, { params: this.toHttpParams(filter) });
   }
 
 }

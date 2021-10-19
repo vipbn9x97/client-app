@@ -1,10 +1,10 @@
 {
-  "name": "skote-angular-vertical",
+  "name": "manpower",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4402",
-    "build": "ng build",
+    "build": "ng build --prod --base-href /manpower/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -53,6 +53,7 @@
     "ng-apexcharts": "^1.5.12",
     "ng-chartist": "^4.1.0",
     "ng-click-outside": "^8.0.0",
+    "ng-multiselect-dropdown": "^0.3.4",
     "ng-otp-input": "^1.7.1",
     "ng-particles": "^2.18.1",
     "ng2-charts": "^2.4.2",

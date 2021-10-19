@@ -5,11 +5,11 @@ import {
   OnChanges,
   Output,
   SimpleChange,
-} from "@angular/core";
+} from '@angular/core';
 import {
   IBulkActionOption,
   IPaginationInput,
-} from "../models/pagination.model";
+} from '../models/pagination.model';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -27,7 +27,7 @@ export abstract class PaginationAbstract implements OnChanges {
   dataSource;
   displayedColumns: string[];
   // selection: SelectionModel<any>;
-  selectionKey = "_id";
+  selectionKey = '_id';
 
   protected data: any;
 
@@ -39,6 +39,7 @@ export abstract class PaginationAbstract implements OnChanges {
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (changes.docs) {
+      console.log(changes.docs);
       this.dataSource.data = changes.docs.currentValue;
       // this.selection.clear();
     }

@@ -26,7 +26,8 @@ import { AbilityComponent } from './ability/Ability.component';
     ListComponent,
     PaginationComponent,
     DashboardComponent,
-    AbilityComponent],
+    AbilityComponent
+  ],
   providers: [MultiforceService],
   exports: [PaginationComponent]
 })

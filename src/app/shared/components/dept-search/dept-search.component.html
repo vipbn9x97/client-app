@@ -1,9 +1,9 @@
-<select class="form-select" (change)="searchByDept($event.target.value)">
-  <option selected>Select</option>
-  <option
-    *ngFor="let item of deptList"
-    [value]="item.id"
-  >
-    {{ item.name }}
-  </option>
-</select>
+<div class="input-group mb-3 ">
+  <div class="input-group-prepend">
+    <label class="input-group-text">{{label}}</label>
+  </div>
+  <select class="form-select" (change)="searchByDept($event.target.value)" [(ngModel)]="defaultDept">
+    <option selected>Select</option>
+    <option *ngFor="let item of ['ASSY1', 'ASSY2', 'ASSY3', 'ASSY4']" [value]="item">{{item}}</option>
+  </select>
+</div>

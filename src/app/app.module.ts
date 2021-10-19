@@ -42,7 +42,7 @@ export function createTranslateLoader(http: HttpClient): any {
     ScrollToModule.forRoot(),
     NgbModule,
     CoreModule,
-    SharedModule
+    SharedModule,
   ],
   bootstrap: [AppComponent],
   providers: [

@@ -4,12 +4,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
-} from "@angular/core";
-import "rxjs/add/operator/debounceTime";
+} from '@angular/core';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
-  selector: "app-code-search",
-  templateUrl: "./code-search.component.html",
+  selector: 'app-code-search',
+  templateUrl: './code-search.component.html',
 })
 export class CodeSearchComponent implements OnInit, OnDestroy {
   @Output() changeCode: EventEmitter<any> = new EventEmitter<any>();
@@ -20,10 +20,8 @@ export class CodeSearchComponent implements OnInit, OnDestroy {
     // this.code
   }
 
-  searchCode(event) {
-    if (this.code > 100000) {
-      this.changeCode.emit(event.target.value);
-    }
+  searchCode(event: string) {
+      this.changeCode.emit(event);
   }
 
   ngOnDestroy() {}

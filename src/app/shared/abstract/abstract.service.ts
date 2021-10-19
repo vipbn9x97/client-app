@@ -1,9 +1,9 @@
-import { HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { cloneDeep, forIn, isObject } from "lodash";
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { cloneDeep, forIn, isObject } from 'lodash';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export abstract class AbstractService {
   protected toHttpParams(obj: object, options: object = {}): HttpParams {
@@ -14,7 +14,7 @@ export abstract class AbstractService {
           val.forEach((criteria) => {
             params = params.append(key, criteria.toString());
           });
-        } else if (val !== null && val !== undefined && val !== "") {
+        } else if (val !== null && val !== undefined && val !== '') {
           params = params.append(key, val.toString());
         }
       }

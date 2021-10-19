@@ -20,8 +20,8 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 4,
-                label: 'MENUITEMS.DASHBOARDS.LIST.CRYPTO',
-                link: '/dashboards/crypto',
+                label: 'Upload Master Data',
+                link: '/dashboards/upload',
                 parentId: 1
             },
             {
@@ -167,6 +167,12 @@ export const MENU: MenuItem[] = [
                         id: 130,
                         label: 'Nhân viên',
                         link: '/training/cell/employee',
+                        parentId: 26
+                    },
+                    {
+                        id: 131,
+                        label: 'Multi',
+                        link: '/training/cell/multi',
                         parentId: 26
                     }
                 ]

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,12 +18,13 @@ export class AbsentRegisterComponent implements OnInit {
   dateNow: any;
   registerForm: FormGroup;
   errorResponse: string;
-  userData;
+  userData: any;
   constructor(
     public activeModal: NgbActiveModal,
     public fb: FormBuilder,
-    private multiService: MultiforceService,
-    private cookie: CookieService) { }
+    private cookie: CookieService,
+    private datepipe: DatePipe
+  ) { }
 
   ngOnInit() {
     this.userData = JSON.parse(this.cookie.get('user'));
@@ -39,16 +41,6 @@ export class AbsentRegisterComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  // passBack() {
-  //   if (this.registerForm.value.type === ''
-  //     || this.registerForm.value.shift === ''
-  //     || this.registerForm.value.fromDate === ''
-  //     || this.registerForm.value.toDate === '') {
-  //     this.errorResponse = 'Vui lòng nhập đầy đủ thông tin!';
-  //   } else {
-  //     console.log(this.registerForm.value);
-  //   }
-  // }
   register() {
     if (this.registerForm.value.type === ''
       || this.registerForm.value.shift === ''
@@ -57,18 +49,23 @@ export class AbsentRegisterComponent implements OnInit {
       || this.registerForm.value.typeAbsent === '') {
       this.errorResponse = 'Vui lòng nhập đầy đủ thông tin!';
     } else {
-
+      let absentType = '';
+      if (this.registerForm.value.typeAbsent === 'Nghỉ cả ngày') {
+        absentType = 'all';
+      } else if (this.registerForm.value.typeAbsent === 'Nghỉ buổi sáng') {
+        absentType = 'morning';
+      } else {
+        absentType = 'afternoon';
+      }
       const absentInfo: IAbsent = {
         type: this.registerForm.value.type,
-        typeAbsent: this.registerForm.value.typeAbsent,
+        typeAbsent: absentType,
         shift: this.registerForm.value.shift,
-        fromDate: this.registerForm.value.fromDate,
-        toDate: this.registerForm.value.toDate,
-        stationName: this.userData.Job.split('.')[1],
-        cell: this.userData.Name,
-        cellName: this.userData.GroupChild,
+        fromDate: this.datepipe.transform(this.registerForm.value.fromDate, 'MM-dd-yyyy'),
+        toDate: this.datepipe.transform(this.registerForm.value.toDate, 'MM-dd-yyyy'),
+        stationId: this.employee.st_id
       };
-      this.multiService.registerMulti(this.registerForm.value).subscribe(res => console.log(res));
+      this.passEntry.emit(absentInfo);
     }
   }
 
@@ -76,7 +73,7 @@ export class AbsentRegisterComponent implements OnInit {
     if (employee.imagepath === 0) {
       return 'assets/images/users/no_image.png';
     } else {
-      return `http://localhost:5000/resources/images/${employee.code}.PNG`;
+      // return `http://localhost:5000/resources/images/${employee.code}.PNG`;
     }
   }
 }

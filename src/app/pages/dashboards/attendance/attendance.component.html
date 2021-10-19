@@ -18,14 +18,22 @@
               <span class="dropdown" style="cursor: pointer;">
                 <img [src]="item.code != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
                   alt="employee" style="width: 55px; height: 55px;" />
-                  <!-- <img [src]="'assets/images/users/face_absent.png'"
-                  alt="employee" style="width: 55px; height: 55px;" /> -->
                 <div class="dropdown-menu">
                   <div class="dropdown-item" *ngIf="isProduct" (click)="openRegisterMultiModal(item)">Đăng ký nghỉ</div>
+                  <div class="dropdown-item" *ngIf="(isMulti && item.training_code === null) || (item.station === '00.SP' && item.training_code === null) 
+                    || (item.station === 'SP' && item.training_code === null)" (click)="stopMulti(item)">
+                    Dừng hoạt động
+                  </div>
+                  <div class="dropdown-item" *ngIf="(isMulti && item.training_code === item.code) || (item.station === '00.SP' && item.training_code === item.code) 
+                  || (item.station === 'SP' && item.training_code === item.code)" (click)="startAgain(item)">
+                    Hoạt động lại
+                  </div>
                   <div class="dropdown-item" (click)="openEmployeeInfoModal(item)">Thông tin bản thân</div>
                 </div>
               </span>
-              <p class="m-b-0">{{item.last_name}}</p>
+              <p class="m-b-0"><span *ngIf="item.training_code === item.code">
+                  <i class="mdi mdi-sleep text-danger"></i></span>{{item.last_name}}
+              </p>
               <p class="m-b-0">{{item.code}}</p>
               <p class="m-b-0">{{item.station}}</p>
             </span>

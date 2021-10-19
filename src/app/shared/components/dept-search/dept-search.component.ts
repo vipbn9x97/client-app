@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { SharedService } from '../../shared.service';
 
 @Component({
   selector: 'app-dept-search',
@@ -7,17 +9,25 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class DeptSearchComponent implements OnInit {
   @Input() label: string;
   @Output() changeDept: EventEmitter<any> = new EventEmitter<any>();
+  defaultDept: string;
   deptList = [
-    { name: 'ASSY 1', id: 1 },
-    { name: 'ASSY 2', id: 2 },
-    { name: 'ASSY 3', id: 7 },
-    { name: 'ASSY 4', id: 14 }
+    { name: 'ASSY1', id: 1 },
+    { name: 'ASSY2', id: 2 },
+    { name: 'ASSY3', id: 7 },
+    { name: 'ASSY4', id: 14 }
   ];
-  constructor() { }
+  constructor(private cookie: CookieService, private sharedService: SharedService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.defaultDept = JSON.parse(this.cookie.get('user')).DeptChild;
+    this.changeDept.emit(JSON.parse(this.cookie.get('user')).DeptId);
+  }
 
-  searchByDept(event: number) {
-    this.changeDept.emit(event);
+  searchByDept(event: string) {
+    for (const iterator of this.deptList) {
+      if (iterator.name === event) {
+        this.changeDept.emit(iterator.id);
+      }
+    }
   }
 }
