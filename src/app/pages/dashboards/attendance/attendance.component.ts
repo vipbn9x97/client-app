@@ -11,6 +11,7 @@ import { MultiforceService } from '../../multiforce/multiforce.service';
 import { AbsentRegisterComponent } from '../absent-register/absent-register.component';
 import { IEmployee } from '../dashboard';
 import { DashboardService } from '../dashboard.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-attendance',
@@ -20,18 +21,28 @@ import { DashboardService } from '../dashboard.service';
 export class AttendanceComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   employeeList: IEmployee[];
+  ldspList: IEmployee[] = [];
+  workerList: IEmployee[] = [];
   message: string;
   progress: number;
   listImageAvailable = [];
   isProduct: boolean;
   isMulti: boolean;
   isNormal: boolean;
+  countData = {
+    total: 0,
+    totalLD: 0,
+    totalSP: 0,
+    totalWorker: 0,
+    absent: 0,
+  };
   constructor(
     private dashboardService: DashboardService,
     private datepipe: DatePipe,
     private modalService: NgbModal,
     private cookieService: CookieService,
-    private multiService: MultiforceService
+    private multiService: MultiforceService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -48,12 +59,30 @@ export class AttendanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
+          this.countData.total = res.data.length;
+          this.divideList(res.data);
           this.employeeList = res.data;
           this.isProduct = res.isProduct;
           this.getImages();
           // this.getStopMulti(JSON.parse(this.cookieService.get('user')).GroupId);
         }
       );
+  }
+
+  divideList(data: IEmployee[]) {
+    for (const iterator of data) {
+      if (iterator.station.includes('SP') || iterator.station.includes('LD')) {
+        this.ldspList.push(iterator);
+        if (iterator.station.includes('SP')) this.countData.totalSP += 1;
+        if (iterator.station.includes('LD')) this.countData.totalLD += 1;
+      } else {
+        this.countData.totalWorker += 1;
+        this.workerList.push(iterator);
+      }
+      if (iterator.session === null) {
+        this.countData.absent += 1;
+      }
+    }
   }
 
   // getStopMulti(groupId: number) {
@@ -190,7 +219,14 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(AbsentRegisterComponent, { size: 'lg', centered: true });
     modalRef.componentInstance.employee = employee;
     modalRef.componentInstance.passEntry.subscribe((receivedEntry) => {
-      this.multiService.registerMulti(receivedEntry).subscribe(res => modalRef.close(), err => console.log(err));
+      this.multiService.registerMulti(receivedEntry).subscribe(() => {
+        modalRef.close(),
+          this.snackBar.open('Đăng ký thành công!!', '', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+          });
+      }, err => modalRef.componentInstance.error = 'Leader đã order multi cho người này!');
     });
   }
   openEmployeeInfoModal(employee: IEmployee) { }

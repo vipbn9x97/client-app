@@ -5,6 +5,9 @@ import { ModelData } from 'src/app/shared/models/returndata.model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { UtilService } from 'src/app/core/services/utils/utilities.service';
 import { MultiforceService } from '../multiforce.service';
+import { EventService } from 'src/app/core/services/event.service';
+// import { emailSentBarChart, monthlyEarningChart } from '../dashboard/data';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ability',
@@ -21,13 +24,22 @@ export class AbilityComponent implements OnInit {
     code: '',
     model: [],
   };
+  isVisible: string;
+  loading: boolean;
+
+  transactions: Array<[]>;
+  statData: Array<[]>;
+
+  isActive: string;
   constructor(
     private shareService: SharedService,
     private utilService: UtilService,
-    private multiService: MultiforceService
+    private multiService: MultiforceService,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
+    // this.fetchData();
   }
 
   updateCode(code: string) {
@@ -39,7 +51,6 @@ export class AbilityComponent implements OnInit {
     this.shareService.getModelByDeptId(deptId).subscribe(res => this.listModel = res.data);
   }
   updateModel(model) {
-    console.log(model);
     if (model.length > 0) {
       this.abilityFilter.model = [];
       for (const iterator of model) {
@@ -55,7 +66,6 @@ export class AbilityComponent implements OnInit {
         code: '',
         model: this.abilityFilter.model.toString()
       };
-      console.log(newFilter);
       this.multiService.getMultiListByModel(newFilter).subscribe(res => console.log(res));
     }
     else if (this.abilityFilter.model.length === 0 && this.abilityFilter.code !== '') {
@@ -87,7 +97,8 @@ export class AbilityComponent implements OnInit {
       })
       .then(result => {
         if (result.value && files.length > 0) {
-          this.utilService.xlsxToJson(files.item(0))
+          this.loading = true;
+          this.utilService.uploadAbilities(files.item(0)).pipe(finalize(() => this.loading = false))
             .subscribe(() => swalWithBootstrapButtons.fire(
               'Successful!',
               `Upload thành công file ${files[0].name}.`,

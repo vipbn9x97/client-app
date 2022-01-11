@@ -1,0 +1,6 @@
+<div style="width: 160px !important">
+  <label for="file-upload" class="custom-file-upload">
+    <i class="fas fa-cloud-upload-alt"></i> Upload Support
+</label>
+<input #file id="file-upload" type="file" (change)="uploadFile($event.target.files)"/>
+</div>

@@ -7,7 +7,7 @@ import { UIModule } from '../../shared/ui/ui.module';
 import { WidgetModule } from '../../shared/widget/widget.module';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { NgbDropdownModule, NgbTooltipModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule, NgbNavModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 import { DefaultComponent } from './default/default.component';
@@ -15,10 +15,9 @@ import { AttendanceComponent } from './attendance/attendance.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AbsentRegisterComponent } from './absent-register/absent-register.component';
 import { FilesModule } from '../pa/files/files.module';
-import { UploadMasterComponent } from './upload-master/upload-master.component';
 
 @NgModule({
-  declarations: [DefaultComponent, AttendanceComponent, AbsentRegisterComponent, UploadMasterComponent],
+  declarations: [DefaultComponent, AttendanceComponent, AbsentRegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,7 +31,8 @@ import { UploadMasterComponent } from './upload-master/upload-master.component';
     NgApexchartsModule,
     SimplebarAngularModule,
     SharedModule,
-    FilesModule
+    FilesModule,
+    NgbCollapseModule
   ]
 })
 export class DashboardsModule { }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BasicComponent } from './basic.component';
+import { AndonComponent } from './andon/andon.component';
 
 const routes: Routes = [
     {
-        path: 'dashboard',
-        component: BasicComponent
+        path: 'andon',
+        component: AndonComponent
     },
 ];
 

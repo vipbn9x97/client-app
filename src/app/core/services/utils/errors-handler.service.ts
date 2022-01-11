@@ -13,7 +13,7 @@ export class ErrorsHandlerService implements ErrorHandler {
     if (error instanceof HttpErrorResponse) {
       if (!NgZone.isInAngularZone()) {
         this.ngZone.run(() => {
-          const action = 'dismiss'
+          const action = 'dismiss';
           let message = 'iss';
           if (error.status === 401) message = 'auth.session_timedout';
           else if (!navigator.onLine) message = 'offline.warning.full';

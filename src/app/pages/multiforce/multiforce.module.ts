@@ -10,6 +10,9 @@ import { MultiforceService } from './multiforce.service';
 import { ListComponent } from './list/list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AbilityComponent } from './ability/Ability.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { UploadMasterComponent } from './upload-master/upload-master.component';
+import { AutoArrangeComponent } from './auto-arrange/auto-arrange.component';
 
 @NgModule({
   imports: [
@@ -18,6 +21,7 @@ import { AbilityComponent } from './ability/Ability.component';
     FormsModule,
     ReactiveFormsModule,
     MultiforceRoutingModule,
+    NgApexchartsModule,
     SharedModule
   ],
   declarations: [
@@ -26,7 +30,9 @@ import { AbilityComponent } from './ability/Ability.component';
     ListComponent,
     PaginationComponent,
     DashboardComponent,
-    AbilityComponent
+    AbilityComponent,
+    UploadMasterComponent,
+    AutoArrangeComponent
   ],
   providers: [MultiforceService],
   exports: [PaginationComponent]

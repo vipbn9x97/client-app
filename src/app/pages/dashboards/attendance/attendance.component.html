@@ -13,13 +13,72 @@
       <div class="card-body">
         <div>
           <div class="row">
-            <span *ngFor="let item of employeeList"
+            <div class="col-md-7">
+              <div class="row">
+                <span *ngFor="let item of ldspList"
+                  style="width: 80px; padding: 0px!important; margin-right: 10px; text-align: center;">
+                  <span class="dropdown" style="cursor: pointer;">
+                    <img [src]="item.session != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
+                      alt="employee" style="width: 55px; height: 55px;" />
+                    <div class="dropdown-menu">
+                      <div class="dropdown-item" *ngIf="isProduct && item.station !== 'LD'"
+                        (click)="openRegisterMultiModal(item)">Order Multi
+                      </div>
+                      <div class="dropdown-item" *ngIf="(isMulti && item.training_code === null) || (item.station === '00.SP' && item.training_code === null) 
+                    || (item.station === 'SP' && item.training_code === null)" (click)="stopMulti(item)">
+                        Dừng hoạt động
+                      </div>
+                      <div class="dropdown-item" *ngIf="(isMulti && item.training_code === item.code) || (item.station === '00.SP' && item.training_code === item.code) 
+                  || (item.station === 'SP' && item.training_code === item.code)" (click)="startAgain(item)">
+                        Hoạt động lại
+                      </div>
+                      <div class="dropdown-item" (click)="openEmployeeInfoModal(item)">Thông tin bản thân</div>
+                    </div>
+                  </span>
+                  <p class="m-b-0"><span *ngIf="item.training_code === item.code">
+                      <i class="mdi mdi-sleep text-danger"></i></span> <span *ngIf="">
+                      <i class="fas fa-truck-pickup"></i>
+                    </span>{{item.last_name}}
+                  </p>
+                  <p class="m-b-0">{{item.code}}</p>
+                  <p class="m-b-0">{{item.station}}</p>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-5 mb-5">
+              <div class="table-responsive">
+                <table class="table table-bordered mb-0">
+
+                  <thead>
+                    <tr>
+                      <th style="text-align: center; background-color: #f1b44c">Total</th>
+                      <th style="text-align: center; background-color: #556ee6; ">LD</th>
+                      <th style="text-align: center; background-color: #34c38f; ">SP</th>
+                      <th style="text-align: center;  ">OP</th>
+                      <th style="text-align: center; text-align: center; background-color: #f46a6a;">Absent</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="vertical-align: middle; text-align: center; font-size: 21px; font-weight: bold;">{{countData.total}}</td>
+                      <td style="vertical-align: middle; text-align: center; font-size: 21px; font-weight: bold;">{{countData.totalLD}}</td>
+                      <td style="vertical-align: middle; text-align: center; font-size: 21px; font-weight: bold;">{{countData.totalSP}}</td>
+                      <td style="vertical-align: middle; text-align: center; font-size: 21px; font-weight: bold;">{{countData.totalWorker}}</td>
+                      <td style="text-align: center; text-align: center; font-size: 21px; font-weight: bold;">{{countData.absent}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <span *ngFor="let item of workerList"
               style="width: 80px; padding: 0px!important; margin-right: 10px; text-align: center;">
               <span class="dropdown" style="cursor: pointer;">
-                <img [src]="item.code != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
+                <img [src]="item.session != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
                   alt="employee" style="width: 55px; height: 55px;" />
                 <div class="dropdown-menu">
-                  <div class="dropdown-item" *ngIf="isProduct" (click)="openRegisterMultiModal(item)">Đăng ký nghỉ</div>
+                  <div class="dropdown-item" *ngIf="isProduct" (click)="openRegisterMultiModal(item)">Order Multi</div>
                   <div class="dropdown-item" *ngIf="(isMulti && item.training_code === null) || (item.station === '00.SP' && item.training_code === null) 
                     || (item.station === 'SP' && item.training_code === null)" (click)="stopMulti(item)">
                     Dừng hoạt động
@@ -32,7 +91,9 @@
                 </div>
               </span>
               <p class="m-b-0"><span *ngIf="item.training_code === item.code">
-                  <i class="mdi mdi-sleep text-danger"></i></span>{{item.last_name}}
+                  <i class="mdi mdi-sleep text-danger"></i></span> <span *ngIf="">
+                  <i class="fas fa-truck-pickup"></i>
+                </span>{{item.last_name}}
               </p>
               <p class="m-b-0">{{item.code}}</p>
               <p class="m-b-0">{{item.station}}</p>

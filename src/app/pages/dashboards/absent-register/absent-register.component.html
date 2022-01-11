@@ -7,7 +7,7 @@
 
     <div class="row">
       <div class="col-md-4">
-        <img [src]="employee.code != null ? createImgPath(employee)  : 'assets/images/employees/face_absent.png'"
+        <img [src]="employee.code != null ? createImgPath(employee)  : 'assets/images/users/face_absent.png'"
           alt="employee" style="width: 150px; height: 150px;" />
       </div>
       <div class=" col-md-8">
@@ -92,7 +92,7 @@
   </div>
 
   <div class="modal-footer">
-    <p style="color: red;">{{errorResponse}}</p>
+    <p style="color: red;">{{errorResponse}} {{error}}</p>
     <button class="btn btn-primary" type="submit">Lưu</button>
     <button class="btn btn-secondary" (click)="activeModal.close('Close click')">Thoát</button>
   </div>

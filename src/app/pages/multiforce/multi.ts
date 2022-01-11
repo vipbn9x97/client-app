@@ -9,3 +9,13 @@ export class IAbsent {
     shift: string;
     stationId: number;
 }
+
+export class IMultiOrderDetail {
+    priority: number;
+    stationId: number;
+    typeAbsent: string;
+    dept: number;
+    model: string;
+    cell: string;
+    stationName: string;
+}

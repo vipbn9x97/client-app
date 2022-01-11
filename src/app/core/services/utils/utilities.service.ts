@@ -14,11 +14,17 @@ export class UtilService extends AbstractService {
     super();
   }
 
-  xlsxToJson(fileToUpload: File): Observable<any> {
+  uploadAbilities(fileToUpload: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', fileToUpload);
     // tslint:disable-next-line:max-line-length
     return this.httpClient.post<any>(`${environment.apiURL}/upload/excel`, formData, { headers: new HttpHeaders({ Accept: 'application/json', 'No-Content-Type': 'yes' }) });
   }
 
+  uploadSupporter(fileToUpload: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload);
+    // tslint:disable-next-line:max-line-length
+    return this.httpClient.post<any>(`${environment.apiURL}/upload/excel-supporter`, formData, { headers: new HttpHeaders({ Accept: 'application/json', 'No-Content-Type': 'yes' }) });
+  }
 }

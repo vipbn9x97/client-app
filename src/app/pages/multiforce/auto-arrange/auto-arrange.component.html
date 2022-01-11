@@ -1,0 +1,120 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-xl-5 col-lg-5">
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0">
+
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Resignation</th>
+                    <th>Long sick</th>
+                    <th>New OP</th>
+                    <th>Absent</th>
+                    <th>Need SP</th>
+                    <th>Extra work</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Required</th>
+                    <td style="background-color: red;">{{assy.resign}}</td>
+                    <td style="background: yellow; color: black;">{{assy.longSick}}</td>
+                    <td style="background: #00b0f0;">{{assy.newOP}}</td>
+                    <td style="background: #01ff00">{{assy.absentOP}}</td>
+                    <td style="background: #cdd961">{{assy.needSP}}</td>
+                    <td style="background: #20B2AA">{{assy.extraWork}}</td>
+                    <td style="background: red">{{assy.total}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style="color: blue;">Replaced</th>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                    <td style="color: blue;">0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-xl-4 col-lg-4">
+      <div class="card" style="margin-bottom: 10px!important">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+
+              <thead>
+                <tr>
+                  <th style=" background-color: #f1b44c">Total</th>
+                  <th style=" background-color: #556ee6; ">LD</th>
+                  <th style="background-color: #34c38f; ">SP</th>
+                  <th>OP</th>
+                  <th style="text-align: center; background-color: #f46a6a;">Absent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color: black">{{countData.total}}</td>
+                  <td style="color: black">{{countData.totalLD}}</td>
+                  <td style="color: black">{{countData.totalSP}}</td>
+                  <td style="color: black">{{countData.totalWorker}}</td>
+                  <td style="color: black">{{countData.absent}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <button class="btn btn-primary" style="font-weight:700;color:white;background-color: red;">NOTE: GIẢI THÍCH CÁC
+        MỤC UPDATE MULTI-SP HÀNG NGÀY</button>
+    </div>
+    <div class="col-xl-3 col-lg-">
+      <div>
+        <p><span style="text-decoration: underline; color: black; background-color: yellow;">Note: </span> Click an image to drag and drop </p>
+        <!-- <p><span style="display:block;width:26px;height:13px;border:2px solid blue"></span> </p>
+        <p><span style="margin:0;padding:0;background-color:#ff0000;border:1px solid #333;color:#000;font-size:10px;width:25px;font-weight:bold;">AM</span></p> -->
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="card">
+      <div class="card-body">
+        <div id="tickets-table_filter" class="text-md-end">
+          <button class="btn btn-primary  d-inline-flex align-items-center"> Confirm
+          </button>
+        </div>
+        <div *ngIf="finalResultfinal.length > 0">
+          <div>
+            <span *ngFor="let item of finalResultfinal | keyvalue">
+              <span *ngFor="let i of item.value | keyvalue">
+                <span>Station Name: {{i.key}} - Code Multi: {{i.value}} </span><br>
+              </span>
+            </span>
+          </div>
+        </div>
+        <!-- <div class="row" style="margin-top: 20px;">
+          <ng-template [ngIf]="list.length < 9">
+            <div *ngFor="let item of list" style="float:left;width:120px;margin-right:5px;border:1px solid #ccc">a</div>
+          </ng-template>
+          <ng-template [ngIf]="list.length > 9">
+            <div *ngFor="let item of list" style="float:left;width:250px;margin-right:5px;border:1px solid #ccc">a</div>
+          </ng-template>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

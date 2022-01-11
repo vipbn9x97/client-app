@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { PaginationAbstract } from "src/app/shared/abstract/pagination.abstract.component";
+import { PaginationAbstract } from 'src/app/shared/abstract/pagination.abstract.component';
 
 @Component({
-  selector: "app-pagination",
-  templateUrl: "./pagination.component.html",
-  styleUrls: ["./pagination.component.scss"],
+  selector: 'app-pagination',
+  templateUrl: './pagination.component.html',
+  styleUrls: ['./pagination.component.scss'],
 })
 export class PaginationComponent extends PaginationAbstract implements OnChanges {
   @Input() courseList;

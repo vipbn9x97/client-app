@@ -6,7 +6,6 @@ import { DOCUMENT } from '@angular/common';
 
 import { MENU } from '../menu';
 import { MenuItem } from '../menu.model';
-import { EventService } from 'src/app/core/services/event.service';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -25,15 +24,19 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   flagvalue;
   countryName;
   valueset;
+  userInfo: any;
 
   menuItems = [];
 
 
 
   // tslint:disable-next-line: max-line-length
-  constructor(@Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    router: Router,
+    private authService: AuthenticationService,
     // tslint:disable-next-line: variable-name
-              public _cookiesService: CookieService) {
+    public _cookiesService: CookieService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -43,7 +46,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.element = document.documentElement;
-
+    this.userInfo = JSON.parse(this._cookiesService.get('user'));
     this.initialize();
 
     this.cookieValue = this._cookiesService.get('lang');

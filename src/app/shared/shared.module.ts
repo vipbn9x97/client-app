@@ -18,6 +18,7 @@ import { AreaSearchComponent } from './components/area-search/area-search.compon
 import { StationSearchComponent } from './components/station-search/station-search.component';
 import { MultiModelSearchComponent } from './components/multi-model-search/multi-model-search.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ChartModule } from './modules/chart/chart.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MultiModelSearchComponent
   ],
   imports: [
+    // ChartModule
     CommonModule,
     MaterialModule,
     UIModule,
@@ -44,6 +46,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [
+    WidgetModule,
     CodeSearchComponent,
     DateSearchComponent,
     ModelSearchComponent,

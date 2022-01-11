@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div style="width: 22% !important">
+            <app-area-search label='Dept' (changeArea)="updateData({ Area: $event})"></app-area-search>
+          </div>
+          <div style="width: 22% !important">
+            <app-model-search label='Dept' (changeModel)="updateData({ Dept: $event})"></app-model-search>
+          </div>
+          <div style="width: 22% !important">
+            <app-date-search label='Từ ngày' (changeDate)="updateData({ FromDate: $event})"></app-date-search>
+          </div>
+          <div style="width: 22% !important">
+            <app-date-search label='Đến ngày' (changeDate)="updateData({ ToDate: $event})"></app-date-search>
+          </div>
+          <div style="width: 12% !important">
+            <button class="btn btn-primary w-md" type="submit" (click)="getAttendance()">Tìm kiếm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-chart [chartData]="chartResult" [chartName]="chartLabel"></app-chart> -->
