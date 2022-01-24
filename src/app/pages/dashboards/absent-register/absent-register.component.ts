@@ -29,7 +29,6 @@ export class AbsentRegisterComponent implements OnInit {
 
   ngOnInit() {
     this.userData = JSON.parse(this.cookie.get('user'));
-    // console.log(this.userData.Job.split('.')[1]);
     this.dateNow = new Date().toISOString();
     this.registerForm = this.fb.group({
       typeAbsent: ['', [Validators.required]],
@@ -65,7 +64,7 @@ export class AbsentRegisterComponent implements OnInit {
         shift: this.registerForm.value.shift,
         fromDate: this.datepipe.transform(this.registerForm.value.fromDate, 'MM-dd-yyyy'),
         toDate: this.datepipe.transform(this.registerForm.value.toDate, 'MM-dd-yyyy'),
-        stationId: this.employee.st_id
+        stationId: this.employee.stationId
       };
       this.passEntry.emit(absentInfo);
     }

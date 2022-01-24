@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <app-page-title title="List Request Multi" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div style="width: 22% !important">
+                      <app-area-search label='Dept' ></app-area-search>
+                    </div>
+                    <div style="width: 22% !important">
+                      <app-model-search label='Dept'></app-model-search>
+                    </div>
+                    <div style="width: 22% !important">
+                      <app-date-search label='Từ ngày'></app-date-search>
+                    </div>
+                    <div style="width: 22% !important">
+                      <app-date-search label='Đến ngày' ></app-date-search>
+                    </div>
+                    <div style="width: 12% !important">
+                      <button class="btn btn-primary w-md" type="submit" >Tìm kiếm</button>
+                    </div>
+                  </div>
+                <app-pagination [orderList]="orderList"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>

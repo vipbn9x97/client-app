@@ -47,6 +47,7 @@ import { ChartModule } from './modules/chart/chart.module';
   ],
   exports: [
     WidgetModule,
+    UIModule,
     CodeSearchComponent,
     DateSearchComponent,
     ModelSearchComponent,

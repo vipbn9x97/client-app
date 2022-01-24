@@ -31,7 +31,6 @@ export class ImagesComponent implements OnInit {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-        console.log();
         reader.onload = (e: any) => {
           this.previews.push({ imgSrc: e.target.result, name: this.selectedFiles[i].name });
         };

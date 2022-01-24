@@ -189,7 +189,7 @@ export class MultiComponent implements OnInit {
   searchByDept(event) {
     for (const iterator of this.deptList) {
       if (iterator.name === event) {
-        this.sharedService.getModelByDeptId(iterator.id).subscribe(res => this.listModel = res.data);
+        this.sharedService.getModelByDeptId(iterator.id).subscribe(res => this.listModel = res);
       }
     }
   }

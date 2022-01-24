@@ -36,7 +36,7 @@ export class SharedService extends AbstractService {
   }
 
   getModelByDeptId(deptId: number) {
-    return this.httpClient.get<IReturnData>(this.shared.listModel + `/${deptId}`);
+    return this.httpClient.get<any>(this.shared.listModel + `/${deptId}`);
   }
   getCellByModelId(modelId: number) {
     return this.httpClient.get<IReturnData>(this.shared.listCell + `/${modelId}`);

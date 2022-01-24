@@ -36,7 +36,6 @@ export abstract class PaginationAbstract implements OnChanges {
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (changes.docs) {
-      console.log(changes.docs);
       this.displayedColumns = changes.docs.currentValue;
     }
   }

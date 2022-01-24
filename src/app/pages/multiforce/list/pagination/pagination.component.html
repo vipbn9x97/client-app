@@ -4,52 +4,55 @@
         table table-bordered
         dt-responsive
         nowrap
-        datatables
         no-footer
         dtr-inline
       ">
       <thead>
         <tr>
-          <th>Hành động</th>
-          <th>Tên lớp học</th>
-          <th>Chi tiết</th>
-          <th>Mục đích của lớp học</th>
-          <th>Ngày đào tạo</th>
-          <th>Nơi đào tạo</th>
-          <th>Trạng thái lớp học</th>
-          <th>Học viên</th>
+          <th>Model</th>
+          <th>Cell</th>
+          <th>Station</th>
+          <th>Shift</th>
+          <th>From Date</th>
+          <th>To Date</th>
+          <th>Date Created</th>
+          <th>Type</th>
+          <th>All Day/Half Day</th>
+          <th colspan="2">Action</th>
         </tr>
       </thead>
-      <tbody *ngFor="let table of docs; let i = index">
+      <tbody *ngFor="let table of orderList; let i = index">
         <tr>
           <td>
-            <div ngbDropdown placement="bottom-left">
-              <i class="mdi mdi-dots-vertical dropdown-toggle" ngbDropdownToggle data-toggle="dropdown"
-                aria-expanded="true" style="cursor: pointer"></i>
-              <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                <a class="dropdown-item" href="javascript: void(0);"><i class="mdi mdi-account-edit"></i>Sửa</a>
-              </div>
-            </div>
+            {{table.model}}
           </td>
           <td>
-            {{ table.code }}
+            {{ table.cell }}
           </td>
-          <td>{{ table.first_name }} {{ table.last_name }}</td>
-          <td>{{ table.hire_date | date: "dd MMM, YYYY" }}</td>
+          <td>{{ table.stationName }}</td>
+          <td>{{table.shift}}</td>
           <td>
-            {{ table.ngay_nhan | date: "dd MMM, YYYY" }}
-          </td>
-          <td>
-            <span *ngIf="table.mobile">{{ table.mobile }}</span>
+            {{table.fromDate | date}}
           </td>
           <td>
-            <span *ngIf="table.familiar_phone">{{ table.familiar_phone }}</span>
+            {{table.toDate | date}}
           </td>
+          <td>
+            {{table.createdDate | date}}
+          </td>
+          <td>
+            {{table.typeAbsent}}
+          </td>
+          <td>
+            {{table.type === 'all' ? 'All day': 'Half day'}}
+          </td>
+          <td style="cursor: pointer; color: blue; text-decoration: underline;">Update</td>
+          <td style="cursor: pointer; color: blue; text-decoration: underline;">Delete</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <ngb-pagination [collectionSize]="50" [(page)]="currentpage"
+  <ngb-pagination [collectionSize]="totalData" [(page)]="currentpage"
     class="pagination pagination-rounded justify-content-end mb-2" aria-label="Default pagination">
   </ngb-pagination>
 </div>

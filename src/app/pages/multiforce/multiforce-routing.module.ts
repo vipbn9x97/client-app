@@ -4,7 +4,6 @@ import { AbilityComponent } from './ability/Ability.component';
 import { AutoArrangeComponent } from './auto-arrange/auto-arrange.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListComponent } from './list/list.component';
-import { SettingsComponent } from './settings/settings.component';
 import { UploadMasterComponent } from './upload-master/upload-master.component';
 
 const routes: Routes = [
@@ -27,12 +26,7 @@ const routes: Routes = [
     {
         path: 'upload',
         component: UploadMasterComponent
-    },
-    {
-        path: 'settings',
-        component: SettingsComponent
     }
-
 ];
 
 @NgModule({

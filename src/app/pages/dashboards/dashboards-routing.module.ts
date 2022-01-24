@@ -7,7 +7,7 @@ import { AttendanceComponent } from './attendance/attendance.component';
 const routes: Routes = [
     {
         path: 'default',
-        component: DefaultComponent
+        component: AttendanceComponent
     },
     {
         path: 'attendance',

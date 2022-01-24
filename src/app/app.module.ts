@@ -8,7 +8,6 @@ import { NgbNavModule, NgbAccordionModule, NgbTooltipModule, NgbModule } from '@
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
-
 import { ExtrapagesModule } from './extrapages/extrapages.module';
 
 import { LayoutsModule } from './layouts/layouts.module';
@@ -42,7 +41,7 @@ export function createTranslateLoader(http: HttpClient): any {
     ScrollToModule.forRoot(),
     NgbModule,
     CoreModule,
-    SharedModule,
+    SharedModule
   ],
   bootstrap: [AppComponent],
   providers: [

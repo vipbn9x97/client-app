@@ -10,6 +10,7 @@ export class LoaderComponent implements OnInit {
 
   loading: boolean;
   constructor(private loaderService: LoaderService) {
+    // tslint:disable-next-line:no-shadowed-variable
     const v = this.loaderService.isLoading.subscribe((v) => {
       this.loading = v;
     });

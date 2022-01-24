@@ -13,6 +13,8 @@ import { AbilityComponent } from './ability/Ability.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { UploadMasterComponent } from './upload-master/upload-master.component';
 import { AutoArrangeComponent } from './auto-arrange/auto-arrange.component';
+import { SimplebarAngularModule } from 'simplebar-angular';
+
 
 @NgModule({
   imports: [
@@ -22,7 +24,8 @@ import { AutoArrangeComponent } from './auto-arrange/auto-arrange.component';
     ReactiveFormsModule,
     MultiforceRoutingModule,
     NgApexchartsModule,
-    SharedModule
+    SharedModule,
+    SimplebarAngularModule
   ],
   declarations: [
     MultiforceComponent,

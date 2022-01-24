@@ -1,4 +1,7 @@
-export class Multi {
+export class MultiFilter {
+    shift: string;
+    date: string;
+    deptId: number;
 }
 
 export class IAbsent {
@@ -18,4 +21,16 @@ export class IMultiOrderDetail {
     model: string;
     cell: string;
     stationName: string;
+    shift: string;
+    fromDate: string;
+    toDate: string;
+    createdDate: string;
+    type: string;
+    codeMulti: string;
+    lastName: string;
+}
+
+export class IMultiAbility {
+    stationId: string;
+    ability: string;
 }

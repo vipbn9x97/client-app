@@ -1,7 +1,6 @@
 import { Component, DoCheck, EventEmitter, Input, IterableDiffers, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ModelData } from '../../models/returndata.model';
-import { SharedService } from '../../shared.service';
 
 @Component({
   selector: 'app-model-search',
@@ -29,15 +28,11 @@ export class ModelSearchComponent implements DoCheck {
     }
   }
   searchByModel(event: string) {
-    console.log(event);
     this.changeModel.emit(event);
   }
 
   clear() {
-    // this.consumerId = null;
-    // this.selectedConsumer = {_id: null, name: null};
     this.modelControl.setValue(null);
-    // this.consumerSearchTerm$.next('');
     this.changeModel.emit(this.modelControl);
   }
 }

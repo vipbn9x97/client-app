@@ -101,7 +101,7 @@
 }
 
 .page-content {
-    padding: calc(#{$header-height} + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) 170px calc(#{$grid-gutter-width} / 2);
+    padding: calc(#{$header-height} + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
 }
 
 .header-item {
@@ -275,8 +275,8 @@ body[data-layout="horizontal"] {
         width: auto;
     }
     .page-content {
-        // margin-top: $header-height;
-        padding: calc(55px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) 215px calc(#{$grid-gutter-width} / 2);
+        margin-top: 15px;
+        padding: calc(55px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
     }    
 }
 

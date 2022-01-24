@@ -8,24 +8,17 @@ import { PaginationAbstract } from 'src/app/shared/abstract/pagination.abstract.
   styleUrls: ['./pagination.component.scss'],
 })
 export class PaginationComponent extends PaginationAbstract implements OnChanges {
-  @Input() courseList;
+  @Input() orderList;
   currentpage: number;
-  currentdata;
+  totalData: number;
   hideme: boolean[] = [];
   constructor() {
     super();
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change.docs.currentValue) {
-      for (let i = 0; i <= this.docs.length; i++) {
-        this.hideme.push(true);
-      }
+    if (change.orderList.currentValue) {
+      this.totalData = change.orderList.currentValue.length;
     }
-  }
-
-  changeValue(i: number, table) {
-    this.hideme[i] = !this.hideme[i];
-    this.currentdata = table;
   }
 }

@@ -39,7 +39,6 @@ export abstract class PaginationAbstract implements OnChanges {
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
     if (changes.docs) {
-      console.log(changes.docs);
       this.dataSource.data = changes.docs.currentValue;
       // this.selection.clear();
     }

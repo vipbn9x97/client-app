@@ -43,11 +43,9 @@ export class AndonComponent implements OnInit, OnDestroy {
       this.chartLabel = 'Training Cell Attendance';
       params.Area === 'Training Basic' ? this.paramSearch.Area = 'basic' : this.paramSearch.Area = 'assy';
     }
-    console.log(params.Area);
   }
 
   getAttendance() {
-    console.log(this.paramSearch);
     forkJoin({
       getAttendanceBasic: this.service.getChartAttendance(this.paramSearch),
       getTotalDayInBasic: this.service.getChartTotalDay(this.paramSearch),

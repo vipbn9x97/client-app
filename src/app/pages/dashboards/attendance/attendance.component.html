@@ -21,27 +21,24 @@
                     <img [src]="item.session != null ? createImgPath(item)  : 'assets/images/users/face_absent.png'"
                       alt="employee" style="width: 55px; height: 55px;" />
                     <div class="dropdown-menu">
-                      <div class="dropdown-item" *ngIf="isProduct && item.station !== 'LD'"
-                        (click)="openRegisterMultiModal(item)">Order Multi
-                      </div>
-                      <div class="dropdown-item" *ngIf="(isMulti && item.training_code === null) || (item.station === '00.SP' && item.training_code === null) 
-                    || (item.station === 'SP' && item.training_code === null)" (click)="stopMulti(item)">
+                      <div class="dropdown-item" *ngIf="(isMulti && item.trainingCode === null) || (item.stationName === '00.SP' && item.trainingCode === null) 
+                    || (item.stationName === 'SP' && item.trainingCode === null)" (click)="stopMulti(item)">
                         Dừng hoạt động
                       </div>
-                      <div class="dropdown-item" *ngIf="(isMulti && item.training_code === item.code) || (item.station === '00.SP' && item.training_code === item.code) 
-                  || (item.station === 'SP' && item.training_code === item.code)" (click)="startAgain(item)">
+                      <div class="dropdown-item" *ngIf="(isMulti && item.trainingCode === item.code) || (item.stationName === '00.SP' && item.trainingCode === item.code) 
+                  || (item.stationName === 'SP' && item.trainingCode === item.code)" (click)="startAgain(item)">
                         Hoạt động lại
                       </div>
                       <div class="dropdown-item" (click)="openEmployeeInfoModal(item)">Thông tin bản thân</div>
                     </div>
                   </span>
-                  <p class="m-b-0"><span *ngIf="item.training_code === item.code">
+                  <p class="m-b-0"><span *ngIf="item.trainingCode === item.code">
                       <i class="mdi mdi-sleep text-danger"></i></span> <span *ngIf="">
                       <i class="fas fa-truck-pickup"></i>
-                    </span>{{item.last_name}}
+                    </span>{{item.lastName}}
                   </p>
                   <p class="m-b-0">{{item.code}}</p>
-                  <p class="m-b-0">{{item.station}}</p>
+                  <p class="m-b-0">{{item.stationName}}</p>
                 </span>
               </div>
             </div>
@@ -79,24 +76,24 @@
                   alt="employee" style="width: 55px; height: 55px;" />
                 <div class="dropdown-menu">
                   <div class="dropdown-item" *ngIf="isProduct" (click)="openRegisterMultiModal(item)">Order Multi</div>
-                  <div class="dropdown-item" *ngIf="(isMulti && item.training_code === null) || (item.station === '00.SP' && item.training_code === null) 
-                    || (item.station === 'SP' && item.training_code === null)" (click)="stopMulti(item)">
+                  <div class="dropdown-item" *ngIf="(isMulti && item.trainingCode === null) || (item.stationName === '00.SP' && item.trainingCode === null) 
+                    || (item.stationName === 'SP' && item.trainingCode === null)" (click)="stopMulti(item)">
                     Dừng hoạt động
                   </div>
-                  <div class="dropdown-item" *ngIf="(isMulti && item.training_code === item.code) || (item.station === '00.SP' && item.training_code === item.code) 
-                  || (item.station === 'SP' && item.training_code === item.code)" (click)="startAgain(item)">
+                  <div class="dropdown-item" *ngIf="(isMulti && item.trainingCode === item.code) || (item.stationName === '00.SP' && item.trainingCode === item.code) 
+                  || (item.stationName === 'SP' && item.trainingCode === item.code)" (click)="startAgain(item)">
                     Hoạt động lại
                   </div>
                   <div class="dropdown-item" (click)="openEmployeeInfoModal(item)">Thông tin bản thân</div>
                 </div>
               </span>
-              <p class="m-b-0"><span *ngIf="item.training_code === item.code">
+              <p class="m-b-0"><span *ngIf="item.trainingCode === item.code">
                   <i class="mdi mdi-sleep text-danger"></i></span> <span *ngIf="">
                   <i class="fas fa-truck-pickup"></i>
-                </span>{{item.last_name}}
+                </span>{{item.lastName}}
               </p>
               <p class="m-b-0">{{item.code}}</p>
-              <p class="m-b-0">{{item.station}}</p>
+              <p class="m-b-0">{{item.stationName}}</p>
             </span>
           </div>
           <!-- end row -->

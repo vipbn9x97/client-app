@@ -1,16 +1,16 @@
 export interface IEmployee {
     absent: number;
-    birth_day: string;
+    birthDay: string;
     code: string;
-    cost: number;
-    first_name: string;
+    firstName: string;
     grade: string;
-    group_id: number;
-    last_name: string;
+    groupId: number;
+    lastName: string;
     newNV: string;
-    position: string;
+    positionName: string;
     session: number;
-    st_id: number;
-    station: string;
+    stationId: number;
+    stationName: string;
     imagepath?: number;
+    traningCode: string;
 }

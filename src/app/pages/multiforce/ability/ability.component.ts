@@ -5,9 +5,8 @@ import { ModelData } from 'src/app/shared/models/returndata.model';
 import { SharedService } from 'src/app/shared/shared.service';
 import { UtilService } from 'src/app/core/services/utils/utilities.service';
 import { MultiforceService } from '../multiforce.service';
-import { EventService } from 'src/app/core/services/event.service';
-// import { emailSentBarChart, monthlyEarningChart } from '../dashboard/data';
 import { finalize } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-ability',
@@ -18,6 +17,7 @@ export class AbilityComponent implements OnInit {
   listModel: ModelData[];
   currentDept: number;
   currentModel;
+  deptId: number;
   isValid: boolean;
   listMulti = [];
   abilityFilter = {
@@ -26,29 +26,33 @@ export class AbilityComponent implements OnInit {
   };
   isVisible: string;
   loading: boolean;
-
   transactions: Array<[]>;
   statData: Array<[]>;
-
   isActive: string;
+
   constructor(
     private shareService: SharedService,
     private utilService: UtilService,
     private multiService: MultiforceService,
-    private eventService: EventService
+    private cookieService: CookieService
   ) { }
 
   ngOnInit() {
-    // this.fetchData();
+    this.deptId = JSON.parse(this.cookieService.get('user')).DeptId;
+    this.getDept(this.deptId);
   }
 
   updateCode(code: string) {
     this.abilityFilter.code = code;
   }
 
-  updateDept(deptId: number) {
+  getDept(deptId: number) {
     this.currentDept = deptId;
-    this.shareService.getModelByDeptId(deptId).subscribe(res => this.listModel = res.data);
+    this.shareService.getModelByDeptId(deptId).subscribe(res => this.listModel = res);
+  }
+
+  onChangeModel(model: any) {
+    console.log(model);
   }
   updateModel(model) {
     if (model.length > 0) {

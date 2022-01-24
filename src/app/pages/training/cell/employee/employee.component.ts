@@ -58,8 +58,8 @@ export class EmployeeComponent implements OnInit {
       this.stationSearch.clear();
       this.stationSearch.stationControl.markAsUntouched({ onlySelf: true });
     }
-    this.sharedService.getModelByDeptId(event).subscribe((res: IReturnData) => {
-      this.listModel = res.data;
+    this.sharedService.getModelByDeptId(event).subscribe((res: any) => {
+      this.listModel = res;
     }, err => throwError(err));
   }
   onChangeModel(event) {

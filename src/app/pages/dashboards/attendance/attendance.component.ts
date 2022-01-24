@@ -51,17 +51,13 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   }
 
   getEmployeeList() {
-    const DateNow = this.datepipe.transform(
-      new Date().toString(),
-      'MM-dd-yyyy'
-    );
-    this.dashboardService.getEmployeeList({ Date: DateNow, CellId: JSON.parse(this.cookieService.get('user')).GroupId })
+    this.dashboardService.getEmployeeList({ cellId: JSON.parse(this.cookieService.get('user')).GroupId })
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
-          this.countData.total = res.data.length;
-          this.divideList(res.data);
-          this.employeeList = res.data;
+          this.countData.total = res.employeeList.length;
+          this.divideList(res.employeeList);
+          this.employeeList = res.employeeList;
           this.isProduct = res.isProduct;
           this.getImages();
           // this.getStopMulti(JSON.parse(this.cookieService.get('user')).GroupId);
@@ -70,11 +66,17 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   }
 
   divideList(data: IEmployee[]) {
+    this.countData.totalLD = 0;
+    this.countData.totalSP = 0;
+    this.countData.absent = 0;
+    this.countData.totalWorker = 0;
+    this.ldspList = [];
+    this.workerList = [];
     for (const iterator of data) {
-      if (iterator.station.includes('SP') || iterator.station.includes('LD')) {
+      if (iterator.stationName.includes('SP') || iterator.stationName.includes('LD')) {
         this.ldspList.push(iterator);
-        if (iterator.station.includes('SP')) this.countData.totalSP += 1;
-        if (iterator.station.includes('LD')) this.countData.totalLD += 1;
+        if (iterator.stationName.includes('SP')) this.countData.totalSP += 1;
+        if (iterator.stationName.includes('LD')) this.countData.totalLD += 1;
       } else {
         this.countData.totalWorker += 1;
         this.workerList.push(iterator);
@@ -101,7 +103,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     swalWithBootstrapButtons
       .fire({
         title: 'Are you sure?',
-        text: `Bạn có muốn xác nhận sử dụng Multi ${multi.code} - ${multi.first_name} ${multi.last_name} không?`,
+        text: `Bạn có muốn xác nhận sử dụng Multi ${multi.code} - ${multi.firstName} ${multi.lastName} không?`,
         icon: 'warning',
         confirmButtonText: 'Yes',
         cancelButtonText: 'No',
@@ -150,7 +152,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     swalWithBootstrapButtons
       .fire({
         title: 'Are you sure?',
-        text: `Bạn có muốn xác nhận dừng sử dụng Multi ${multi.code} - ${multi.first_name} ${multi.last_name} không?`,
+        text: `Bạn có muốn xác nhận dừng sử dụng Multi ${multi.code} - ${multi.firstName} ${multi.lastName} không?`,
         icon: 'warning',
         confirmButtonText: 'Yes',
         cancelButtonText: 'No',
@@ -212,7 +214,6 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   }
 
   update() {
-    console.log('ok');
   }
 
   openRegisterMultiModal(employee: IEmployee) {

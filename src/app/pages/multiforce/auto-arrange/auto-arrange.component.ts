@@ -1,13 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { MultiforceService } from '../multiforce.service';
-import { orderBy, cloneDeep } from 'lodash';
 import { CookieService } from 'ngx-cookie-service';
 import { DashboardService } from '../../dashboards/dashboard.service';
 import { IEmployee } from '../../dashboards/dashboard';
 import { ITottal } from '../dashboard/dashboard';
+import * as moment from 'moment';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { clone } from 'lodash';
+import { IMultiAbility, IMultiOrderDetail } from '../multi';
 @Component({
   selector: 'app-auto-arrange',
   templateUrl: './auto-arrange.component.html',
@@ -30,7 +33,9 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
     replacedResign: 0,
     replacedTotal: 0
   };
+  date = new Date();
   private ngUnsubscribe = new Subject();
+  formatDate: string;
   employeeList: IEmployee[];
   countData = {
     total: 0,
@@ -41,8 +46,8 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
   };
   ldspList: IEmployee[] = [];
   workerList: IEmployee[] = [];
-  listOrderMulti: any;
-  availableMulti: any;
+  listOrderMulti: IMultiOrderDetail[];
+  listAvailableMulti: IMultiAbility[];
   orderMultiHistory: any;
   finalResult = [];
   finalResultfinal = [];
@@ -51,7 +56,10 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
   isMulti: boolean;
   isNormal: boolean;
   deptId: number;
+  cellName: string;
   shift: string;
+  dataList: any;
+
   constructor(
     private multiService: MultiforceService,
     private datepipe: DatePipe,
@@ -61,8 +69,9 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.deptId = JSON.parse(this.cookieService.get('user')).DeptId;
-    this.shift = JSON.parse(this.cookieService.get('user')).GroupChild.split('-')[0];
-    this.getAllData();
+    this.cellName = JSON.parse(this.cookieService.get('user')).GroupChild.split('-')[0];
+    this.shift = this.cellName.includes('A') ? 'Shift A' : 'Shift B';
+    this.formatDate = moment(this.date).format('MM-DD-YYYY');
     this.getEmployeeList();
   }
 
@@ -75,18 +84,19 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
-          this.countData.total = res.data.length;
-          this.divideList(res.data);
+          this.countData.total = res.employeeList.length;
+          this.divideList(res.employeeList);
           // this.getStopMulti(JSON.parse(this.cookieService.get('user')).GroupId);
         }
       );
   }
+
   divideList(data: IEmployee[]) {
     for (const iterator of data) {
-      if (iterator.station.includes('SP') || iterator.station.includes('LD')) {
+      if (iterator.stationName.includes('SP') || iterator.stationName.includes('LD')) {
         this.ldspList.push(iterator);
-        if (iterator.station.includes('SP')) this.countData.totalSP += 1;
-        if (iterator.station.includes('LD')) this.countData.totalLD += 1;
+        if (iterator.stationName.includes('SP')) this.countData.totalSP += 1;
+        if (iterator.stationName.includes('LD')) this.countData.totalLD += 1;
       } else {
         this.countData.totalWorker += 1;
         this.workerList.push(iterator);
@@ -97,83 +107,201 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllData() {
-    const DateNow = this.datepipe.transform(
-      new Date().toString(),
-      'MM-dd-yyyy'
-    );
-    forkJoin({
-      getListOrderMulti: this.multiService.getListOrderByDept({ deptId: this.deptId, date: DateNow, shift: 'Shift A' }),
-      getAvailableMulti: this.multiService.getAvailableMulti({ deptId: this.deptId, date: DateNow, shift: 'Shift A' }),
-      getOrderMultiHistory: this.multiService.getListOrderMultiHistory({ deptId: 14, date: DateNow, shift: 'Shift A' })
-    }).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
-      ({ getListOrderMulti, getAvailableMulti, getOrderMultiHistory }) => {
-        this.listOrderMulti = getListOrderMulti;
-        this.availableMulti = getAvailableMulti.data;
-        this.orderMultiHistory = getOrderMultiHistory.data;
-        this.assy.total = this.listOrderMulti.length;
-        const orderArray = [];
-        for (const data of this.listOrderMulti) {
-          orderArray.push(data.stationId.toString().trim());
-          if (data.typeAbsent === 'Long sick') this.assy.longSick += 1;
-          if (data.typeAbsent === 'Resignation') this.assy.resign += 1;
-          if (data.typeAbsent === 'New OP') this.assy.newOP += 1;
-          if (data.typeAbsent === 'Absent OP') this.assy.absentOP += 1;
-          if (data.typeAbsent === 'Need SP') this.assy.needSP += 1;
-          if (data.typeAbsent === 'Extra work') this.assy.extraWork += 1;
-        }
-        // tim ra nhung multi co the dap ung cong doan duoc order
-        const listAvailableMulti = this.availableMulti.filter((item: any) => orderArray.includes(item.stationId.toString().trim()));
-        // sap xep multi theo thu tu station nao it multi  thi xep truoc
-        const listOrderAvailableMulti = orderBy(listAvailableMulti, [(o: any) => o.ability.length], ['asc']);
-        this.arrangeMulti(listOrderAvailableMulti);
-      }
-    );
+  changeShift(value: string) {
+    this.shift = value;
   }
 
-  arrangeMulti(listOrderAvailableMulti) {
-    if (listOrderAvailableMulti.length > 0) {
-      const result = [];
-      if (this.finalResult.length === 0) {
-        this.finalResult.push({ [listOrderAvailableMulti[0].stationId]: listOrderAvailableMulti[0].ability.split((/;| - /))[0] });
-        listOrderAvailableMulti.splice(0, 1);
-        if (listOrderAvailableMulti.length > 0) this.arrangeMulti(listOrderAvailableMulti);
-      } else {
-        if (listOrderAvailableMulti.length > 0) {
-          let multiAvailable = listOrderAvailableMulti[0].ability.split((/;| - /));
-          let i = 0;
-          while (i < multiAvailable.length) {
-            if (multiAvailable[i] === '100' || multiAvailable[i] === '75' || multiAvailable[i] === '50') {
-              multiAvailable.splice(i, 1);
-            } else {
-              ++i;
+  onDateSelect(event: NgbDate) {
+    this.formatDate = event.month + '-' + event.day + '-' + event.year;
+  }
+
+  getAllData() {
+    if (this.shift === 'Select') {
+      this.shift = this.cellName.includes('A') ? 'Shift A' : 'Shift B';
+    }
+    this.multiService.getAutoArrangeMulti({ deptId: this.deptId, shift: this.shift, date: this.formatDate }).subscribe(res => {
+      this.listAvailableMulti = res.listAvailableMulti;
+      this.listOrderMulti = res.listOrderMulti;
+      this.orderMultiHistory = res.listMultiOrderHistory;
+      this.assy.total = this.listOrderMulti.length;
+      const orderArray = [];
+      const modelArray = [];
+      const newData = {};
+      const newListOrderMulti: IMultiOrderDetail[] = clone(this.listOrderMulti);
+      for (const data of newListOrderMulti) {
+        if (data.typeAbsent === 'Long sick') {
+          this.assy.longSick += 1;
+        }
+        if (data.typeAbsent === 'Resignation') {
+          this.assy.resign += 1;
+        }
+        if (data.typeAbsent === 'New OP') {
+          this.assy.newOP += 1;
+        }
+        if (data.typeAbsent === 'Absent OP') {
+          this.assy.absentOP += 1;
+        }
+        if (data.typeAbsent === 'Need SP') {
+          this.assy.needSP += 1;
+        }
+        if (data.typeAbsent === 'Extra work') {
+          this.assy.extraWork += 1;
+        }
+        if (!modelArray.includes(data.model)) modelArray.push(data.model);
+        orderArray.push(data.stationId.toString().trim());
+        if (data.cell.includes('Sub')) {
+          data.model = 'Sub ' + data.model;
+        } else {
+          data.model = 'Main ' + data.model;
+        }
+        if (!newData.hasOwnProperty(data.model)) {
+          Object.assign(newData, {
+            [data.model]: {
+              [data.cell]: {
+                [data.stationName]: {
+                  code_multi: data.codeMulti,
+                  typeAbsent: data.typeAbsent,
+                  stationId: data.stationId,
+                  lastName: data.lastName
+                }
+              }
             }
+          });
+        } else {
+          const j = this.keyify(newData);
+          if (!this.checkExist(j, { model: data.model, cell: data.cell, station: null })) {
+            newData[data.model][data.cell] = {
+              [data.stationName]: {
+                code_multi: data.codeMulti,
+                typeAbsent: data.typeAbsent,
+                stationId: data.stationId,
+                lastName: data.lastName
+              }
+            };
+          } else if (!this.checkExist(j, { model: data.model, cell: data.cell, station: data.stationName })) {
+            newData[data.model][data.cell][data.stationName] = {
+              code_multi: data.codeMulti,
+              typeAbsent: data.typeAbsent,
+              stationId: data.stationId,
+              lastName: data.lastName
+            };
           }
-          for (const data of this.finalResult) {
-            result.push(Object.values(data)[0].toString().split('-')[0]);
-          }
-          multiAvailable = multiAvailable.filter((item: any) => !result.includes(item.toString().trim()));
-          if (multiAvailable.length > 0) {
-            this.finalResult.push({ [listOrderAvailableMulti[0].stationId]: multiAvailable[0].toString().trim() });
-          }
-          listOrderAvailableMulti.splice(0, 1);
-          this.arrangeMulti(listOrderAvailableMulti);
         }
       }
-    } else {
-      console.log(this.finalResult);
-      for (const data of this.finalResult) {
-        this.multiService.getStationName({ stationID: Object.keys(data).toString() })
-          .subscribe(res => {
-            this.finalResultfinal.push({ [res[0].stName]: Object.values(data).toString() });
-          });
+      this.dataList = newData;
+      this.multiService.checkIsArrange({ deptId: this.deptId, shift: this.shift, date: this.formatDate })
+        .subscribe((rs) => {
+          if (rs === null) {
+            this.arrangeMulti();
+          }
+        });
+    });
+  }
+
+  checkExist(arr: any, { model, cell, station }) {
+    let count = 0;
+    for (const i of arr) {
+      if (station === null) {
+        if (i.includes(model) && i.includes(cell)) count = 1;
+      } else {
+        if (i.includes(model) && i.includes(cell) && i.includes(station)) count = 1;
       }
+
+    }
+    if (count === 0) return false;
+    else return true;
+  }
+
+  keyify = (obj, prefix = '') =>
+    Object.keys(obj).reduce((res, el) => {
+      if (typeof obj[el] === 'object' && obj[el] !== null) {
+        return [...res, ...this.keyify(obj[el], prefix + el + '.')];
+      }
+      return [...res, prefix + el];
+    }, [])
+
+  arrangeMulti() {
+    if (this.listAvailableMulti.length > 0) {
+      const filteredResult = [];
+      for (const i of this.listAvailableMulti) {
+        if (i.ability !== null) filteredResult.push(i);
+        else this.finalResult.push(i);
+      }
+      filteredResult.sort((a, b) => (a.ability.length > b.ability.length) ? 1 : -1);
+      console.log(filteredResult);
+      // const result = [];
+      // if (filteredResult.length === 0) {
+      //   this.finalResult.push({ [this.listAvailableMulti[0].stationId]: this.listAvailableMulti[0].ability.split((/;| - /))[0] });
+      //   this.listAvailableMulti.splice(0, 1);
+      //   if (this.listAvailableMulti.length > 0) this.arrangeMulti();
+      // } else {
+      //   if (this.listAvailableMulti.length > 0) {
+      //     let multiAvailable = this.listAvailableMulti[0].ability.split((/;| - /));
+      //     let i = 0;
+      //     while (i < multiAvailable.length) {
+      //       if (multiAvailable[i] === '100' || multiAvailable[i] === '75' || multiAvailable[i] === '50') {
+      //         multiAvailable.splice(i, 1);
+      //       } else {
+      //         ++i;
+      //       }
+      //     }
+      //     for (const data of this.finalResult) {
+      //       result.push(Object.values(data)[0].toString().split('-')[0]);
+      //     }
+      //     multiAvailable = multiAvailable.filter((item: any) => !result.includes(item.toString().trim()));
+      //     if (multiAvailable.length > 0) {
+      //       this.finalResult.push({ [this.listAvailableMulti[0].stationId]: multiAvailable[0].toString().trim() });
+      //     }
+      //     this.listAvailableMulti.splice(0, 1);
+      //     this.arrangeMulti();
+      //   }
+      // }
     }
   }
 
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+}
+
+  // forkJoin({
+  //   getListOrderMulti: this.multiService.getListOrderByDept({ deptId: this.deptId}),
+  //   getAvailableMulti: this.multiService.getAvailableMulti({ deptId: this.deptId, shift: 'Shift A' }),
+  //   getOrderMultiHistory: this.multiService.getListOrderMultiHistory({ deptId: 14, shift: 'Shift A' })
+  // }).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+  //   ({ getListOrderMulti, getAvailableMulti, getOrderMultiHistory }) => {
+  //     this.listOrderMulti = getListOrderMulti;
+  //     this.availableMulti = getAvailableMulti;
+  //     this.orderMultiHistory = getOrderMultiHistory;
+  //     this.assy.total = this.listOrderMulti.length;
+  //     const orderArray = [];
+  //     const modelArray = [];
+  //     for (const data of this.listOrderMulti) {
+  //       if (!modelArray.includes(data.model)) modelArray.push(data.model);
+  //       orderArray.push(data.stationId.toString().trim());
+  //       if (data.typeAbsent === 'Long sick') this.assy.longSick += 1;
+  //       if (data.typeAbsent === 'Resignation') this.assy.resign += 1;
+  //       if (data.typeAbsent === 'New OP') this.assy.newOP += 1;
+  //       if (data.typeAbsent === 'Absent OP') this.assy.absentOP += 1;
+  //       if (data.typeAbsent === 'Need SP') this.assy.needSP += 1;
+  //       if (data.typeAbsent === 'Extra work') this.assy.extraWork += 1;
+  //     }
+  //     this.divWidth = 100 / modelArray.length;
+  //     this.modelList = modelArray;
+  //     console.log(this.modelList);
+  //     // tim ra nhung multi co the dap ung cong doan duoc order
+  //     const listAvailableMulti = this.availableMulti.filter((item: any) => orderArray.includes(item.stationId.toString().trim()));
+  //     // sap xep multi theo thu tu station nao it multi  thi xep truoc
+  //     const this.listAvailableMulti = orderBy(listAvailableMulti, [(o: any) => o.ability.length], ['asc']);
+  //     this.arrangeMulti(this.listAvailableMulti);
+  //   }
+  // );
+
   // bat dau loop tung station de sap xel
   // this.arrangeData(, );
-  // while (listOrderAvailableMulti.length > 0) {
+  // while (this.listAvailableMulti.length > 0) {
   //
   // }
 
@@ -293,9 +421,3 @@ export class AutoArrangeComponent implements OnInit, OnDestroy {
 
   // sap xep order theo thu tu: cong doan dac biet -> cong doan trong -> cong doan can ho tro
 
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
-}

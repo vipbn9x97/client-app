@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractService } from 'src/app/shared/abstract/abstract.service';
 import { environment } from 'src/environments/environment';
-import { IAbsent, IMultiOrderDetail } from './multi';
+import { IAbsent, IMultiOrderDetail, MultiFilter } from './multi';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +12,13 @@ export class MultiforceService extends AbstractService {
     registerMulti: `${environment.apiURL}/multi/register`,
     uploadAbilityFile: `${environment.apiURL}/uploadexcel/read`,
     getMultiListByModel: `${environment.apiURL}/multi/ability/list`,
-    getListOrderByDept: `${environment.apiURL}/multi/autoarrangemulti/listorder`,
+    getAutoArrangeMulti: `${environment.apiURL}/multi/autoarrangemulti/auto-arrange`,
     getAvailablebyStation: `${environment.apiURL}/multi/autoarrangemulti/listbystation`,
     getOrderMultiHistory: `${environment.apiURL}/multi/autoarrangemulti/historyorder`,
     getAbilityByMulti: `${environment.apiURL}/multi/autoarrangemulti/listbymulti`,
-    getStationName: `${environment.apiURL}/multi/autoarrangemulti/stationname`
+    getStationName: `${environment.apiURL}/multi/autoarrangemulti/stationname`,
+    checkIsArrange: `${environment.apiURL}/multi/autoarrangemulti/isarrange`,
+    getListOrderByDept: `${environment.apiURL}/multi/autoarrangemulti/list`
   };
   constructor(private http: HttpClient) {
     super();
@@ -35,7 +37,11 @@ export class MultiforceService extends AbstractService {
   }
 
   getListOrderByDept(params) {
-    return this.http.get<IMultiOrderDetail>(this.multi.getListOrderByDept, { params: this.toHttpParams(params) });
+    return this.http.get<any>(this.multi.getListOrderByDept, { params: this.toHttpParams(params) });
+  }
+
+  getAutoArrangeMulti(params: MultiFilter) {
+    return this.http.get<any>(this.multi.getAutoArrangeMulti, { params: this.toHttpParams(params) });
   }
   getListOrderMultiHistory(params) {
     return this.http.get<any>(this.multi.getOrderMultiHistory, { params: this.toHttpParams(params) });
@@ -48,5 +54,8 @@ export class MultiforceService extends AbstractService {
   }
   getStationName(params) {
     return this.http.get<any>(this.multi.getStationName, { params: this.toHttpParams(params) });
+  }
+  checkIsArrange(params: MultiFilter) {
+    return this.http.get<any>(this.multi.checkIsArrange, { params: this.toHttpParams(params) });
   }
 }
